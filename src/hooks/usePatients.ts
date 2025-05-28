@@ -22,7 +22,7 @@ export const usePatients = () => {
       if (!user) throw new Error('User not authenticated');
 
       const { data, error } = await supabase
-        .from('patients')
+        .from('patients' as any)
         .select('*')
         .eq('user_id', user.id)
         .order('name', { ascending: true });

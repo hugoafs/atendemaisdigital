@@ -26,7 +26,7 @@ export const useAppointments = () => {
       if (!user) throw new Error('User not authenticated');
 
       const { data, error } = await supabase
-        .from('appointments')
+        .from('appointments' as any)
         .select(`
           *,
           patient:patients(name)
@@ -52,7 +52,7 @@ export const useTodayAppointments = () => {
       if (!user) throw new Error('User not authenticated');
 
       const { data, error } = await supabase
-        .from('appointments')
+        .from('appointments' as any)
         .select(`
           *,
           patient:patients(name)
