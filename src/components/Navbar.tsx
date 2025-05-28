@@ -1,10 +1,30 @@
 
-import { Calendar, Settings, BarChart3, Bell, Menu, X } from 'lucide-react';
+import { Calendar, Settings, BarChart3, Bell, Menu, X, LogOut } from 'lucide-react';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
+import { useAuth } from '@/contexts/AuthContext';
+import { useToast } from '@/hooks/use-toast';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { user, signOut } = useAuth();
+  const { toast } = useToast();
+
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+      toast({
+        title: 'Logout realizado com sucesso',
+        description: 'Até a próxima!',
+      });
+    } catch (error) {
+      toast({
+        title: 'Erro no logout',
+        description: 'Tente novamente.',
+        variant: 'destructive',
+      });
+    }
+  };
 
   const navItems = [
     { name: 'Dashboard', icon: BarChart3, href: '#dashboard' },
@@ -35,9 +55,20 @@ const Navbar = () => {
                 <span className="font-medium">{item.name}</span>
               </a>
             ))}
-            <Button className="bg-blue-600 hover:bg-blue-700">
-              Sair
-            </Button>
+            {user && (
+              <div className="flex items-center space-x-4">
+                <span className="text-sm text-gray-600">{user.email}</span>
+                <Button 
+                  onClick={handleSignOut}
+                  variant="outline"
+                  size="sm"
+                  className="flex items-center space-x-2"
+                >
+                  <LogOut size={16} />
+                  <span>Sair</span>
+                </Button>
+              </div>
+            )}
           </div>
 
           {/* Mobile menu button */}
@@ -67,11 +98,20 @@ const Navbar = () => {
                   <span className="font-medium">{item.name}</span>
                 </a>
               ))}
-              <div className="px-4 pt-2">
-                <Button className="w-full bg-blue-600 hover:bg-blue-700">
-                  Sair
-                </Button>
-              </div>
+              {user && (
+                <div className="px-4 pt-2 border-t border-gray-200">
+                  <div className="text-sm text-gray-600 mb-2">{user.email}</div>
+                  <Button 
+                    onClick={handleSignOut}
+                    variant="outline"
+                    size="sm"
+                    className="w-full flex items-center justify-center space-x-2"
+                  >
+                    <LogOut size={16} />
+                    <span>Sair</span>
+                  </Button>
+                </div>
+              )}
             </div>
           </div>
         )}

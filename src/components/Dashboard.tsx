@@ -4,13 +4,34 @@ import StatsCard from './StatsCard';
 import AppointmentCard from './AppointmentCard';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useTodayAppointments } from '@/hooks/useAppointments';
+import { usePatients } from '@/hooks/usePatients';
+import { Skeleton } from '@/components/ui/skeleton';
 
 const Dashboard = () => {
-  // Mock data - in real app this would come from Supabase
+  const { data: todayAppointments, isLoading: appointmentsLoading } = useTodayAppointments();
+  const { data: patients, isLoading: patientsLoading } = usePatients();
+
+  // Calculate stats
+  const totalAppointmentsToday = todayAppointments?.length || 0;
+  const totalPatients = patients?.length || 0;
+  
+  const monthlyRevenue = todayAppointments?.reduce((sum, appointment) => {
+    return sum + (appointment.value || 0);
+  }, 0) || 0;
+
+  const completedAppointments = todayAppointments?.filter(
+    app => app.status === 'concluido'
+  ).length || 0;
+  
+  const attendanceRate = totalAppointmentsToday > 0 
+    ? Math.round((completedAppointments / totalAppointmentsToday) * 100)
+    : 0;
+
   const stats = [
     {
       title: 'Consultas Hoje',
-      value: 8,
+      value: totalAppointmentsToday,
       icon: Calendar,
       change: '+2 que ontem',
       changeType: 'positive' as const,
@@ -18,64 +39,27 @@ const Dashboard = () => {
     },
     {
       title: 'Pacientes Ativos',
-      value: 42,
+      value: totalPatients,
       icon: Users,
       change: '+5 este mês',
       changeType: 'positive' as const,
       color: 'green' as const,
     },
     {
-      title: 'Receita Mensal',
-      value: 'R$ 8.450',
+      title: 'Receita Hoje',
+      value: `R$ ${monthlyRevenue.toFixed(2)}`,
       icon: DollarSign,
-      change: '+12% vs mês anterior',
+      change: '+12% vs ontem',
       changeType: 'positive' as const,
       color: 'purple' as const,
     },
     {
       title: 'Taxa de Presença',
-      value: '94%',
+      value: `${attendanceRate}%`,
       icon: TrendingUp,
       change: '+2% esta semana',
       changeType: 'positive' as const,
       color: 'orange' as const,
-    },
-  ];
-
-  const todayAppointments = [
-    {
-      id: '1',
-      patientName: 'Maria Silva',
-      time: '09:00',
-      date: '27/05/2025',
-      type: 'particular' as const,
-      status: 'agendado' as const,
-      value: 150,
-    },
-    {
-      id: '2',
-      patientName: 'João Santos',
-      time: '10:30',
-      date: '27/05/2025',
-      type: 'plano' as const,
-      status: 'em-andamento' as const,
-    },
-    {
-      id: '3',
-      patientName: 'Ana Costa',
-      time: '14:00',
-      date: '27/05/2025',
-      type: 'particular' as const,
-      status: 'agendado' as const,
-      value: 150,
-    },
-    {
-      id: '4',
-      patientName: 'Pedro Oliveira',
-      time: '15:30',
-      date: '27/05/2025',
-      type: 'plano' as const,
-      status: 'concluido' as const,
     },
   ];
 
@@ -111,11 +95,33 @@ const Dashboard = () => {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="grid gap-4">
-                {todayAppointments.map((appointment) => (
-                  <AppointmentCard key={appointment.id} {...appointment} />
-                ))}
-              </div>
+              {appointmentsLoading ? (
+                <div className="grid gap-4">
+                  {[...Array(3)].map((_, i) => (
+                    <Skeleton key={i} className="h-32 w-full" />
+                  ))}
+                </div>
+              ) : todayAppointments && todayAppointments.length > 0 ? (
+                <div className="grid gap-4">
+                  {todayAppointments.map((appointment) => (
+                    <AppointmentCard 
+                      key={appointment.id} 
+                      id={appointment.id}
+                      patientName={appointment.patient.name}
+                      time={appointment.time}
+                      date={new Date(appointment.date).toLocaleDateString('pt-BR')}
+                      type={appointment.type}
+                      status={appointment.status}
+                      value={appointment.value}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-8 text-gray-500">
+                  <Calendar size={48} className="mx-auto mb-4 text-gray-300" />
+                  <p>Nenhuma consulta agendada para hoje</p>
+                </div>
+              )}
             </CardContent>
           </Card>
         </div>
@@ -147,16 +153,43 @@ const Dashboard = () => {
               <CardTitle>Próximas Notificações</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="space-y-3">
-                <div className="p-3 bg-blue-50 rounded-lg border border-blue-200">
-                  <p className="text-sm font-medium text-blue-900">Maria Silva</p>
-                  <p className="text-xs text-blue-600">Lembrete em 5 min</p>
+              {appointmentsLoading ? (
+                <div className="space-y-3">
+                  <Skeleton className="h-16 w-full" />
+                  <Skeleton className="h-16 w-full" />
                 </div>
-                <div className="p-3 bg-yellow-50 rounded-lg border border-yellow-200">
-                  <p className="text-sm font-medium text-yellow-900">João Santos</p>
-                  <p className="text-xs text-yellow-600">Sessão em andamento</p>
+              ) : todayAppointments && todayAppointments.length > 0 ? (
+                <div className="space-y-3">
+                  {todayAppointments.slice(0, 2).map((appointment) => (
+                    <div key={appointment.id} className={`p-3 rounded-lg border ${
+                      appointment.status === 'em-andamento' 
+                        ? 'bg-yellow-50 border-yellow-200' 
+                        : 'bg-blue-50 border-blue-200'
+                    }`}>
+                      <p className={`text-sm font-medium ${
+                        appointment.status === 'em-andamento' 
+                          ? 'text-yellow-900' 
+                          : 'text-blue-900'
+                      }`}>
+                        {appointment.patient.name}
+                      </p>
+                      <p className={`text-xs ${
+                        appointment.status === 'em-andamento' 
+                          ? 'text-yellow-600' 
+                          : 'text-blue-600'
+                      }`}>
+                        {appointment.status === 'em-andamento' 
+                          ? 'Sessão em andamento' 
+                          : `Próxima consulta às ${appointment.time}`}
+                      </p>
+                    </div>
+                  ))}
                 </div>
-              </div>
+              ) : (
+                <div className="text-center py-4 text-gray-500">
+                  <p className="text-sm">Nenhuma notificação pendente</p>
+                </div>
+              )}
             </CardContent>
           </Card>
         </div>
