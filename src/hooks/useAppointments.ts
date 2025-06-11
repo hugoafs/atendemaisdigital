@@ -26,7 +26,7 @@ export const useAppointments = () => {
       if (!user) throw new Error('User not authenticated');
 
       const { data, error } = await supabase
-        .from('appointments' as any)
+        .from('appointments')
         .select(`
           *,
           patient:patients(name)
@@ -36,7 +36,7 @@ export const useAppointments = () => {
         .order('time', { ascending: true });
 
       if (error) throw error;
-      return data as Appointment[];
+      return (data || []) as unknown as Appointment[];
     },
     enabled: !!user,
   });
@@ -52,7 +52,7 @@ export const useTodayAppointments = () => {
       if (!user) throw new Error('User not authenticated');
 
       const { data, error } = await supabase
-        .from('appointments' as any)
+        .from('appointments')
         .select(`
           *,
           patient:patients(name)
@@ -62,7 +62,7 @@ export const useTodayAppointments = () => {
         .order('time', { ascending: true });
 
       if (error) throw error;
-      return data as Appointment[];
+      return (data || []) as unknown as Appointment[];
     },
     enabled: !!user,
   });

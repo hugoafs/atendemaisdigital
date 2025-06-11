@@ -22,13 +22,13 @@ export const usePatients = () => {
       if (!user) throw new Error('User not authenticated');
 
       const { data, error } = await supabase
-        .from('patients' as any)
+        .from('patients')
         .select('*')
         .eq('user_id', user.id)
         .order('name', { ascending: true });
 
       if (error) throw error;
-      return data as Patient[];
+      return (data || []) as Patient[];
     },
     enabled: !!user,
   });
