@@ -48,6 +48,28 @@ const AgendaCalendar = ({ selectedDate, onSelectDate, appointments }: AgendaCale
         modifiers={modifiers}
         modifiersClassNames={modifiersClassNames}
         className="rounded-md border"
+        components={{
+          Day: ({ date, ...props }) => {
+            const dateString = date.toDateString();
+            const count = appointmentCounts[dateString];
+            
+            return (
+              <div className="relative">
+                <button 
+                  {...props}
+                  className={`${props.className} relative h-9 w-9 p-0 font-normal aria-selected:opacity-100`}
+                >
+                  {date.getDate()}
+                  {count && (
+                    <div className="absolute -top-1 -right-1 h-5 w-5 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs font-bold">
+                      {count}
+                    </div>
+                  )}
+                </button>
+              </div>
+            );
+          },
+        }}
       />
       
       <div className="text-sm text-gray-600">
