@@ -3,6 +3,7 @@ import { Clock, User, DollarSign } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { useUpdateAppointmentStatus } from '@/hooks/useUpdateAppointmentStatus';
 
 interface AppointmentCardProps {
   id: string;
@@ -15,6 +16,7 @@ interface AppointmentCardProps {
 }
 
 const AppointmentCard = ({ 
+  id,
   patientName, 
   time, 
   date, 
@@ -22,6 +24,8 @@ const AppointmentCard = ({
   status, 
   value 
 }: AppointmentCardProps) => {
+  const updateStatus = useUpdateAppointmentStatus();
+
   const statusColors = {
     agendado: 'bg-blue-100 text-blue-800 border-blue-200',
     'em-andamento': 'bg-yellow-100 text-yellow-800 border-yellow-200',
@@ -34,6 +38,10 @@ const AppointmentCard = ({
     'em-andamento': 'Em Andamento',
     concluido: 'Concluído',
     cancelado: 'Cancelado',
+  };
+
+  const handleStatusChange = (newStatus: 'agendado' | 'em-andamento' | 'concluido' | 'cancelado') => {
+    updateStatus.mutate({ appointmentId: id, status: newStatus });
   };
 
   return (
@@ -70,22 +78,49 @@ const AppointmentCard = ({
         <div className="flex space-x-2 mt-4">
           {status === 'agendado' && (
             <>
-              <Button size="sm" className="flex-1 bg-blue-600 hover:bg-blue-700">
+              <Button 
+                size="sm" 
+                className="flex-1 bg-blue-600 hover:bg-blue-700"
+                onClick={() => handleStatusChange('em-andamento')}
+                disabled={updateStatus.isPending}
+              >
                 Iniciar
               </Button>
-              <Button size="sm" variant="outline" className="flex-1">
-                Editar
+              <Button 
+                size="sm" 
+                variant="outline" 
+                className="flex-1"
+                onClick={() => handleStatusChange('cancelado')}
+                disabled={updateStatus.isPending}
+              >
+                Cancelar
               </Button>
             </>
           )}
           {status === 'em-andamento' && (
-            <Button size="sm" className="w-full bg-green-600 hover:bg-green-700">
+            <Button 
+              size="sm" 
+              className="w-full bg-green-600 hover:bg-green-700"
+              onClick={() => handleStatusChange('concluido')}
+              disabled={updateStatus.isPending}
+            >
               Finalizar
             </Button>
           )}
           {status === 'concluido' && (
             <Button size="sm" variant="outline" className="w-full">
               Ver Detalhes
+            </Button>
+          )}
+          {status === 'cancelado' && (
+            <Button 
+              size="sm" 
+              variant="outline" 
+              className="w-full"
+              onClick={() => handleStatusChange('agendado')}
+              disabled={updateStatus.isPending}
+            >
+              Reagendar
             </Button>
           )}
         </div>

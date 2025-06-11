@@ -1,8 +1,9 @@
 
-import { Calendar, Users, DollarSign, TrendingUp, Plus } from 'lucide-react';
+import { Calendar, Users, DollarSign, TrendingUp } from 'lucide-react';
 import StatsCard from './StatsCard';
 import AppointmentCard from './AppointmentCard';
-import { Button } from '@/components/ui/button';
+import CreateAppointmentDialog from './CreateAppointmentDialog';
+import CreatePatientDialog from './CreatePatientDialog';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useTodayAppointments } from '@/hooks/useAppointments';
 import { usePatients } from '@/hooks/usePatients';
@@ -71,10 +72,7 @@ const Dashboard = () => {
           <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
           <p className="text-gray-600 mt-1">Visão geral da sua prática hoje</p>
         </div>
-        <Button className="mt-4 sm:mt-0 bg-blue-600 hover:bg-blue-700">
-          <Plus size={20} className="mr-2" />
-          Nova Consulta
-        </Button>
+        <CreateAppointmentDialog />
       </div>
 
       {/* Stats Grid */}
@@ -133,18 +131,15 @@ const Dashboard = () => {
               <CardTitle>Ações Rápidas</CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
-              <Button className="w-full bg-blue-600 hover:bg-blue-700">
-                <Plus size={16} className="mr-2" />
-                Agendar Consulta
-              </Button>
-              <Button variant="outline" className="w-full">
-                <Users size={16} className="mr-2" />
-                Cadastrar Paciente
-              </Button>
-              <Button variant="outline" className="w-full">
-                <TrendingUp size={16} className="mr-2" />
+              <CreateAppointmentDialog>
+                <div className="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded text-center cursor-pointer transition-colors">
+                  Agendar Consulta
+                </div>
+              </CreateAppointmentDialog>
+              <CreatePatientDialog />
+              <div className="w-full border border-gray-300 hover:bg-gray-50 px-4 py-2 rounded text-center cursor-pointer transition-colors">
                 Ver Relatórios
-              </Button>
+              </div>
             </CardContent>
           </Card>
 
