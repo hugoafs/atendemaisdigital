@@ -26,49 +26,43 @@ const AgendaCalendar = ({ selectedDate, onSelectDate, appointments }: AgendaCale
     hasAppointments: (date: Date) => appointmentDates.includes(date.toDateString()),
   };
 
-  const modifiersStyles = {
-    hasAppointments: {
-      position: 'relative',
-    },
+  const modifiersClassNames = {
+    hasAppointments: 'bg-blue-50 text-blue-900 font-medium border-blue-200',
   };
+
+  console.log('AgendaCalendar - Selected date:', selectedDate);
+  console.log('AgendaCalendar - Appointments:', appointments.length);
+  console.log('AgendaCalendar - Appointment dates:', appointmentDates);
 
   return (
     <div className="space-y-4">
       <Calendar
         mode="single"
         selected={selectedDate}
-        onSelect={(date) => date && onSelectDate(date)}
-        modifiers={modifiers}
-        modifiersStyles={modifiersStyles as any}
-        className="rounded-md border"
-        components={{
-          Day: ({ date, ...props }) => {
-            const dateString = date.toDateString();
-            const count = appointmentCounts[dateString];
-            
-            return (
-              <div className="relative">
-                <button {...props}>
-                  {date.getDate()}
-                  {count && (
-                    <Badge 
-                      variant="secondary" 
-                      className="absolute -top-1 -right-1 h-5 w-5 p-0 text-xs flex items-center justify-center bg-blue-600 text-white"
-                    >
-                      {count}
-                    </Badge>
-                  )}
-                </button>
-              </div>
-            );
-          },
+        onSelect={(date) => {
+          console.log('Calendar date selected:', date);
+          if (date) {
+            onSelectDate(date);
+          }
         }}
+        modifiers={modifiers}
+        modifiersClassNames={modifiersClassNames}
+        className="rounded-md border"
       />
       
       <div className="text-sm text-gray-600">
-        <div className="flex items-center space-x-2">
-          <div className="w-3 h-3 bg-blue-600 rounded-full"></div>
-          <span>Dias com consultas agendadas</span>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-2">
+            <div className="w-3 h-3 bg-blue-50 border border-blue-200 rounded-full"></div>
+            <span>Dias com consultas agendadas</span>
+          </div>
+          
+          {/* Show appointment count for selected date */}
+          {appointmentCounts[selectedDate.toDateString()] && (
+            <Badge variant="secondary" className="bg-blue-600 text-white">
+              {appointmentCounts[selectedDate.toDateString()]} consulta(s)
+            </Badge>
+          )}
         </div>
       </div>
     </div>
