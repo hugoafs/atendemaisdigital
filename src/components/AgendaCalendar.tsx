@@ -57,7 +57,7 @@ const AgendaCalendar = ({ selectedDate, onSelectDate, appointments }: AgendaCale
               <div className="relative">
                 <button 
                   {...props}
-                  className={`${props.className} relative h-9 w-9 p-0 font-normal aria-selected:opacity-100`}
+                  className="relative h-9 w-9 p-0 font-normal aria-selected:opacity-100 hover:bg-accent hover:text-accent-foreground disabled:pointer-events-none disabled:opacity-50"
                 >
                   {date.getDate()}
                   {count && (
