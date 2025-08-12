@@ -55,8 +55,9 @@ const Landing = () => {
               Simplifique o atendimento e a gestão do seu consultório
             </h1>
             <p className="text-muted-foreground text-lg">
-              Agenda inteligente, lembretes automáticos, relatórios — e agora, gerencie tudo pelo seu
-              WhatsApp. Zero complicação, 100% produtividade.
+              Agenda inteligente, relatórios — e gestão 100% pelo seu WhatsApp.
+              O sistema conversa com o profissional (não com pacientes) para confirmar, finalizar,
+              agendar, reagendar e consultar a agenda (dia/semana/mês).
             </p>
             <div className="flex flex-wrap gap-3">
               <Link to="/auth">
@@ -109,7 +110,8 @@ const Landing = () => {
                 <div className="flex items-center gap-2 text-emerald-600"><Bell className="h-5 w-5" /><CardTitle>Notificações automáticas</CardTitle></div>
               </CardHeader>
               <CardContent className="text-sm text-muted-foreground">
-                Lembretes por WhatsApp e e-mail para reduzir faltas e confirmar presenças automaticamente.
+                Lembretes e alertas enviados ao profissional via WhatsApp: antes/depois do atendimento,
+                confirmação e finalização, tudo sem abrir o sistema no computador.
               </CardContent>
             </Card>
             <Card>
@@ -133,7 +135,9 @@ const Landing = () => {
                 <div className="flex items-center gap-2 text-green-700"><MessageCircle className="h-5 w-5" /><CardTitle>Integração WhatsApp</CardTitle></div>
               </CardHeader>
               <CardContent className="text-sm text-muted-foreground">
-                Conecte seu número e centralize confirmações, reagendamentos e follow-ups direto no WhatsApp.
+                Conecte seu número e gerencie tudo pelo WhatsApp do profissional: confirmar/finalizar
+                atendimentos, agendar/reagendar, ver agenda do dia/semana/mês e contagens.
+                Pacientes não são contatados pelo sistema.
               </CardContent>
             </Card>
             <Card>
@@ -151,7 +155,7 @@ const Landing = () => {
         <section id="how" className="mx-auto max-w-6xl px-4 py-12">
           <div className="text-center mb-10 space-y-2">
             <h2 className="text-3xl font-bold">Como funciona</h2>
-            <p className="text-muted-foreground">Comece em minutos e gerencie tudo pelo WhatsApp</p>
+            <p className="text-muted-foreground">Comece em minutos e gerencie tudo pelo WhatsApp (apenas para o profissional)</p>
           </div>
           <div className="grid gap-6 md:grid-cols-4">
             <Card>
@@ -176,7 +180,7 @@ const Landing = () => {
               <CardHeader>
                 <div className="flex items-center gap-2"><MessageCircle className="h-5 w-5 text-emerald-600" /><CardTitle>4. Gerencie via WhatsApp</CardTitle></div>
               </CardHeader>
-              <CardContent className="text-sm text-muted-foreground">Confirme, reagende e responda pacientes de qualquer lugar.</CardContent>
+              <CardContent className="text-sm text-muted-foreground">Confirme, finalize, agende e reagende pelo WhatsApp do profissional. Consulte agenda do dia/semana/mês.</CardContent>
             </Card>
           </div>
         </section>
@@ -192,9 +196,9 @@ const Landing = () => {
             </CardHeader>
             <CardContent className="grid gap-6 md:grid-cols-[1fr_360px] items-center">
               <ul className="text-sm text-muted-foreground space-y-3">
-                <li className="flex gap-2 items-start"><CheckCircle2 className="h-4 w-4 text-green-600 mt-0.5" /> Confirmar presença e enviar lembretes automáticos</li>
-                <li className="flex gap-2 items-start"><CheckCircle2 className="h-4 w-4 text-green-600 mt-0.5" /> Reagendar com um toque e atualizar sua agenda em tempo real</li>
-                <li className="flex gap-2 items-start"><CheckCircle2 className="h-4 w-4 text-green-600 mt-0.5" /> Responder pacientes e registrar histórico direto no sistema</li>
+                <li className="flex gap-2 items-start"><CheckCircle2 className="h-4 w-4 text-green-600 mt-0.5" /> Confirmar atendimento e marcar como finalizado</li>
+                <li className="flex gap-2 items-start"><CheckCircle2 className="h-4 w-4 text-green-600 mt-0.5" /> Agendar e reagendar com atualização imediata da agenda</li>
+                <li className="flex gap-2 items-start"><CheckCircle2 className="h-4 w-4 text-green-600 mt-0.5" /> Ver agenda do dia/semana/mês e contagem de atendimentos</li>
                 <li className="flex gap-2 items-start"><CheckCircle2 className="h-4 w-4 text-green-600 mt-0.5" /> Criar blocos de horários e pausas pelo celular</li>
               </ul>
               <div className="grid gap-3">
@@ -209,7 +213,7 @@ const Landing = () => {
                     <Button variant="outline" className="w-full">Falar com o time</Button>
                   </a>
                 </div>
-                <p className="text-xs text-muted-foreground">Usamos o seu número. Não compartilhamos dados com terceiros.</p>
+                <p className="text-xs text-muted-foreground">Integração focada no profissional. O sistema não envia mensagens para pacientes. Não compartilhamos dados com terceiros.</p>
               </div>
             </CardContent>
           </Card>
