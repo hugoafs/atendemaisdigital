@@ -12,9 +12,7 @@ import {
   MessageCircle,
   Clock,
   Users,
-  QrCode,
   Shield,
-  ShieldCheck,
   CheckCircle2,
   ArrowRight,
   Sparkles,
@@ -41,7 +39,6 @@ const Landing = () => {
           <nav className="hidden md:flex items-center gap-6 text-sm text-muted-foreground">
             <a href="#features" className="hover:text-foreground">Recursos</a>
             <a href="#how" className="hover:text-foreground">Como funciona</a>
-            <a href="#whatsapp" className="hover:text-foreground">WhatsApp</a>
             <a href="#pricing" className="hover:text-foreground">Planos</a>
             <a href="#faq" className="hover:text-foreground">FAQ</a>
           </nav>
@@ -66,7 +63,7 @@ const Landing = () => {
           <div className="pointer-events-none absolute -z-10 -top-24 -left-20 h-72 w-72 rounded-full bg-emerald-500/20 blur-3xl" />
           <div className="pointer-events-none absolute -z-10 -bottom-32 -right-20 h-96 w-96 rounded-full bg-blue-500/20 blur-3xl" />
           <div className="space-y-6">
-            <Badge className="bg-emerald-600/90 backdrop-blur border border-white/20">Novo: Gestão completa via WhatsApp</Badge>
+            <Badge className="bg-emerald-600/90 backdrop-blur border border-white/20">Solução completa para consultórios</Badge>
             <h1 className="text-4xl md:text-6xl font-extrabold leading-tight tracking-tight">
               <span className="bg-gradient-to-br from-emerald-400 via-emerald-200 to-white bg-clip-text text-transparent">
                 Gerencie seu consultório
@@ -75,9 +72,8 @@ const Landing = () => {
               com eficiência e sofisticação
             </h1>
             <p className="text-muted-foreground text-lg">
-              Agenda inteligente, relatórios — e gestão 100% pelo seu WhatsApp.
-              O sistema conversa com o profissional (não com pacientes) para confirmar, finalizar,
-              agendar, reagendar e consultar a agenda (dia/semana/mês).
+              Agenda inteligente, automações e relatórios — tudo em uma plataforma moderna
+              pensada para o dia a dia do profissional, com experiência mobile impecável.
             </p>
             <div className="flex flex-wrap gap-3">
               <Link to="/auth">
@@ -86,10 +82,10 @@ const Landing = () => {
                   <span className="absolute inset-0 -z-0 bg-gradient-to-r from-emerald-500/0 via-emerald-500/20 to-emerald-500/0 translate-x-[-120%] group-hover:translate-x-[120%] transition-transform duration-700" />
                 </Button>
               </Link>
-              <a href="https://wa.me/00000000000" target="_blank" rel="noreferrer">
+              <a href="#features">
                 <Button size="lg" variant="outline" className="backdrop-blur">
-                  Falar no WhatsApp
-                  <MessageCircle className="ml-2 h-4 w-4" />
+                  Ver recursos
+                  <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </a>
             </div>
@@ -139,7 +135,7 @@ const Landing = () => {
             <div className="flex items-center gap-2"><Sparkles className="h-4 w-4" /> Lumina</div>
             <div className="flex items-center gap-2"><Globe className="h-4 w-4" /> Orbit</div>
             <div className="flex items-center gap-2"><Star className="h-4 w-4" /> NovaLabs</div>
-            <div className="flex items-center gap-2"><ShieldCheck className="h-4 w-4" /> Sentinel</div>
+            <div className="flex items-center gap-2"><Shield className="h-4 w-4" /> Sentinel</div>
             <div className="flex items-center gap-2"><MessageCircle className="h-4 w-4" /> Wave</div>
           </div>
         </section>
@@ -164,8 +160,8 @@ const Landing = () => {
                 <div className="flex items-center gap-2 text-emerald-600"><Bell className="h-5 w-5" /><CardTitle>Notificações automáticas</CardTitle></div>
               </CardHeader>
               <CardContent className="text-sm text-muted-foreground">
-                Lembretes e alertas enviados ao profissional via WhatsApp: antes/depois do atendimento,
-                confirmação e finalização, tudo sem abrir o sistema no computador.
+                Lembretes e alertas para reduzir faltas, confirmar e finalizar atendimentos
+                de forma simples e eficiente.
               </CardContent>
             </Card>
             <Card className="transition-all duration-300 hover:shadow-emerald-500/20 hover:-translate-y-0.5">
@@ -181,17 +177,15 @@ const Landing = () => {
                 <div className="flex items-center gap-2 text-teal-600"><Smartphone className="h-5 w-5" /><CardTitle>Mobile-first</CardTitle></div>
               </CardHeader>
               <CardContent className="text-sm text-muted-foreground">
-                Tudo funciona no seu celular. O profissional gerencia a agenda e confirmações pelo WhatsApp.
+                Tudo funciona no seu celular. O profissional gerencia a agenda e confirmações de qualquer lugar.
               </CardContent>
             </Card>
             <Card className="transition-all duration-300 hover:shadow-emerald-500/20 hover:-translate-y-0.5">
               <CardHeader>
-                <div className="flex items-center gap-2 text-green-700"><MessageCircle className="h-5 w-5" /><CardTitle>Integração WhatsApp</CardTitle></div>
+                <div className="flex items-center gap-2 text-green-700"><MessageCircle className="h-5 w-5" /><CardTitle>Atendimento ágil</CardTitle></div>
               </CardHeader>
               <CardContent className="text-sm text-muted-foreground">
-                Conecte seu número e gerencie tudo pelo WhatsApp do profissional: confirmar/finalizar
-                atendimentos, agendar/reagendar, ver agenda do dia/semana/mês e contagens.
-                Pacientes não são contatados pelo sistema.
+                Fluxo de confirmação, reagendamento e finalização sem fricção, com foco na rotina do profissional.
               </CardContent>
             </Card>
             <Card className="transition-all duration-300 hover:shadow-emerald-500/20 hover:-translate-y-0.5">
@@ -226,76 +220,44 @@ const Landing = () => {
         <section id="how" className="mx-auto max-w-6xl px-4 py-12">
           <div className="text-center mb-10 space-y-2">
             <h2 className="text-3xl font-bold">Como funciona</h2>
-            <p className="text-muted-foreground">Comece em minutos e gerencie tudo pelo WhatsApp (apenas para o profissional)</p>
+            <p className="text-muted-foreground">Comece em minutos e gerencie tudo em qualquer dispositivo</p>
           </div>
           <div className="grid gap-6 md:grid-cols-4">
             <Card>
               <CardHeader>
                 <div className="flex items-center gap-2"><CheckCircle2 className="h-5 w-5 text-green-600" /><CardTitle>1. Crie sua conta</CardTitle></div>
               </CardHeader>
-              <CardContent className="text-sm text-muted-foreground">Cadastre-se e personalize horários de atendimento e serviços.</CardContent>
+              <CardContent className="text-sm text-muted-foreground">Defina horários, serviços e preferências do seu consultório.</CardContent>
             </Card>
             <Card>
               <CardHeader>
-                <div className="flex items-center gap-2"><QrCode className="h-5 w-5 text-blue-600" /><CardTitle>2. Conecte o WhatsApp</CardTitle></div>
+                <div className="flex items-center gap-2"><Calendar className="h-5 w-5 text-violet-600" /><CardTitle>2. Organize a agenda</CardTitle></div>
               </CardHeader>
-              <CardContent className="text-sm text-muted-foreground">Escaneie um QR Code para vincular seu número com o sistema.</CardContent>
+              <CardContent className="text-sm text-muted-foreground">Cadastre pacientes, importe compromissos e personalize a rotina.</CardContent>
             </Card>
             <Card>
               <CardHeader>
-                <div className="flex items-center gap-2"><Calendar className="h-5 w-5 text-violet-600" /><CardTitle>3. Importe sua agenda</CardTitle></div>
+                <div className="flex items-center gap-2"><Bell className="h-5 w-5 text-emerald-600" /><CardTitle>3. Automatize lembretes</CardTitle></div>
               </CardHeader>
-              <CardContent className="text-sm text-muted-foreground">Leve seus pacientes e compromissos ou comece do zero, fácil.</CardContent>
+              <CardContent className="text-sm text-muted-foreground">Reduza faltas com confirmações e alertas no momento certo.</CardContent>
             </Card>
             <Card>
               <CardHeader>
-                <div className="flex items-center gap-2"><MessageCircle className="h-5 w-5 text-emerald-600" /><CardTitle>4. Gerencie via WhatsApp</CardTitle></div>
+                <div className="flex items-center gap-2"><BarChart2 className="h-5 w-5 text-blue-600" /><CardTitle>4. Acompanhe resultados</CardTitle></div>
               </CardHeader>
-              <CardContent className="text-sm text-muted-foreground">Confirme, finalize, agende e reagende pelo WhatsApp do profissional. Consulte agenda do dia/semana/mês.</CardContent>
+              <CardContent className="text-sm text-muted-foreground">Monitore indicadores e evolua a gestão com dados.</CardContent>
             </Card>
           </div>
         </section>
 
-        {/* WhatsApp focus */}
-        <section id="whatsapp" className="mx-auto max-w-6xl px-4 py-16">
-          <Card className="border-green-600/30 shadow-2xl">
-            <CardHeader>
-              <div className="flex items-center gap-2">
-                <MessageCircle className="h-5 w-5 text-green-600" />
-                <CardTitle>Gestão completa pelo WhatsApp</CardTitle>
-              </div>
-            </CardHeader>
-            <CardContent className="grid gap-8 md:grid-cols-[1fr_360px] items-center">
-              <ul className="text-sm text-muted-foreground space-y-3">
-                <li className="flex gap-2 items-start"><CheckCircle2 className="h-4 w-4 text-green-600 mt-0.5" /> Confirmar atendimento e marcar como finalizado</li>
-                <li className="flex gap-2 items-start"><CheckCircle2 className="h-4 w-4 text-green-600 mt-0.5" /> Agendar e reagendar com atualização imediata da agenda</li>
-                <li className="flex gap-2 items-start"><CheckCircle2 className="h-4 w-4 text-green-600 mt-0.5" /> Ver agenda do dia/semana/mês e contagem de atendimentos</li>
-                <li className="flex gap-2 items-start"><CheckCircle2 className="h-4 w-4 text-green-600 mt-0.5" /> Criar blocos de horários e pausas pelo celular</li>
-              </ul>
-              <div className="grid gap-3">
-                <AspectRatio ratio={1} className="bg-muted rounded-md overflow-hidden">
-                  <img src="/placeholder.svg" alt="QR Code de conexão do WhatsApp" className="h-full w-full object-cover" />
-                </AspectRatio>
-                <div className="flex gap-2">
-                  <Link to="/auth" className="w-full">
-                    <Button className="w-full">Conectar meu WhatsApp</Button>
-                  </Link>
-                  <a className="w-full" href="https://wa.me/00000000000" target="_blank" rel="noreferrer">
-                    <Button variant="outline" className="w-full">Falar com o time</Button>
-                  </a>
-                </div>
-                <p className="text-xs text-muted-foreground">Integração focada no profissional. O sistema não envia mensagens para pacientes. Não compartilhamos dados com terceiros.</p>
-              </div>
-            </CardContent>
-          </Card>
-        </section>
+        
 
         {/* Testimonial */}
         <section className="mx-auto max-w-5xl px-4 py-8">
           <div className="rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur p-8 md:p-10 text-center shadow-xl">
             <p className="text-lg md:text-xl leading-relaxed">
-              “A gestão pelo WhatsApp mudou meu dia a dia. Confirmo, finalizo e reagendo em segundos,
-              sem abrir o notebook. O atendimento ficou muito mais fluido.”
+              “A plataforma simplificou minha rotina. Confirmo, reagendo e finalizo em segundos,
+              sem depender do notebook. O atendimento ficou muito mais fluido.”
             </p>
             <div className="mt-4 text-sm text-muted-foreground">— Profissional da saúde, usuário do Atende+ Digital</div>
           </div>
@@ -325,7 +287,7 @@ const Landing = () => {
               </CardHeader>
               <CardContent className="text-sm text-muted-foreground space-y-3">
                 <div>• Até 5 profissionais</div>
-                <div>• Automação no WhatsApp</div>
+                <div>• Automações de lembretes</div>
                 <div>• Relatórios e indicadores</div>
                 <Link to="/auth"><Button className="mt-4 w-full">Assinar</Button></Link>
               </CardContent>
@@ -338,7 +300,7 @@ const Landing = () => {
                 <div>• Equipes e múltiplas agendas</div>
                 <div>• Integrações avançadas</div>
                 <div>• Suporte prioritário</div>
-                <a href="https://wa.me/00000000000" target="_blank" rel="noreferrer"><Button className="mt-4 w-full" variant="outline">Falar com vendas</Button></a>
+                <a href="#faq"><Button className="mt-4 w-full" variant="outline">Falar com vendas</Button></a>
               </CardContent>
             </Card>
           </div>
@@ -352,12 +314,12 @@ const Landing = () => {
           </div>
           <Accordion type="single" collapsible>
             <AccordionItem value="q1">
-              <AccordionTrigger>Como conecto meu WhatsApp?</AccordionTrigger>
-              <AccordionContent>Basta criar sua conta, acessar as configurações e escanear o QR Code gerado. Em segundos, seu número estará ligado ao sistema.</AccordionContent>
+              <AccordionTrigger>Preciso instalar algo?</AccordionTrigger>
+              <AccordionContent>Não. É 100% web e funciona nos principais navegadores, desktop e mobile.</AccordionContent>
             </AccordionItem>
             <AccordionItem value="q2">
-              <AccordionTrigger>Posso gerenciar tudo pelo celular?</AccordionTrigger>
-              <AccordionContent>Sim. A agenda, confirmações e reagendamentos funcionam totalmente pelo WhatsApp, pensado para uso mobile.</AccordionContent>
+              <AccordionTrigger>Funciona bem no celular?</AccordionTrigger>
+              <AccordionContent>Sim. A experiência é mobile-first: você gerencia sua agenda de qualquer lugar.</AccordionContent>
             </AccordionItem>
             <AccordionItem value="q3">
               <AccordionTrigger>Meus dados estão seguros?</AccordionTrigger>
@@ -375,12 +337,12 @@ const Landing = () => {
           <Card className="bg-gradient-to-br from-emerald-600 to-green-700 text-white shadow-2xl">
             <CardContent className="p-8 md:p-10 grid gap-6 md:grid-cols-[2fr_1fr] items-center">
               <div>
-                <h3 className="text-2xl md:text-3xl font-semibold">Comece hoje e gerencie seu consultório pelo WhatsApp</h3>
+                <h3 className="text-2xl md:text-3xl font-semibold">Comece hoje e simplifique sua gestão</h3>
                 <p className="text-white/90 mt-2">Crie sua conta em minutos e automatize tarefas repetitivas.</p>
               </div>
               <div className="flex gap-2 justify-end">
                 <Link to="/auth"><Button size="lg" variant="secondary">Criar conta</Button></Link>
-                <a href="https://wa.me/00000000000" target="_blank" rel="noreferrer"><Button size="lg" variant="outline" className="text-white border-white/70">Falar no WhatsApp</Button></a>
+                <a href="#pricing"><Button size="lg" variant="outline" className="text-white border-white/70">Ver planos</Button></a>
               </div>
             </CardContent>
           </Card>
@@ -394,7 +356,6 @@ const Landing = () => {
           <div className="flex items-center gap-4">
             <a href="#features" className="hover:text-foreground">Recursos</a>
             <a href="#how" className="hover:text-foreground">Como funciona</a>
-            <a href="#whatsapp" className="hover:text-foreground">WhatsApp</a>
             <a href="#pricing" className="hover:text-foreground">Planos</a>
           </div>
         </div>
