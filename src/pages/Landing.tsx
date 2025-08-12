@@ -72,7 +72,7 @@ const Landing = () => {
                 Gerencie seu consultório
               </span>
               <br />
-              com precisão milionária
+              com eficiência e sofisticação
             </h1>
             <p className="text-muted-foreground text-lg">
               Agenda inteligente, relatórios — e gestão 100% pelo seu WhatsApp.
