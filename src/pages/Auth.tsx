@@ -35,7 +35,7 @@ const Auth = () => {
           title: 'Login realizado com sucesso!',
           description: 'Bem-vindo de volta.',
         });
-        navigate('/');
+        navigate('/app');
       }
     } catch (error) {
       toast({

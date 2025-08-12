@@ -7,7 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import Index from "./pages/Index";
-import Landing from "./pages/Landing";
+import Home from "./pages/Home";
 import Agenda from "./pages/Agenda";
 import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
@@ -23,7 +23,7 @@ const App = () => (
         <BrowserRouter>
           <Routes>
             <Route path="/auth" element={<Auth />} />
-            <Route path="/" element={<Landing />} />
+            <Route path="/" element={<Home />} />
             <Route
               path="/app"
               element={
