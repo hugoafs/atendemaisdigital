@@ -58,7 +58,7 @@ const Landing = () => {
               </Link>
               <Link to="/auth">
                 <Button className="bg-gradient-to-r from-emerald-600 to-blue-600 hover:from-emerald-700 hover:to-blue-700 text-white">
-                  Começar grátis
+                  Começar agora
                 </Button>
               </Link>
             </div>
@@ -341,30 +341,34 @@ const Landing = () => {
               Planos simples e transparentes
             </h2>
             <p className="text-xl text-slate-600 max-w-2xl mx-auto">
-              Comece grátis e evolua conforme sua necessidade
+              Escolha o plano ideal para o tamanho do seu consultório
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             <Card className="border-2 border-slate-200 hover:border-emerald-300 transition-all duration-300 hover:shadow-xl">
               <CardHeader className="text-center pb-6">
-                <CardTitle className="text-2xl text-slate-900">Gratuito</CardTitle>
-                <div className="text-4xl font-bold text-slate-900">R$ 0</div>
-                <p className="text-slate-600">Para começar</p>
+                <CardTitle className="text-2xl text-slate-900">Básico</CardTitle>
+                <div className="text-4xl font-bold text-slate-900">R$ 49,90</div>
+                <p className="text-slate-600">Por mês</p>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="space-y-3">
                   <div className="flex items-center gap-3">
                     <CheckCircle2 className="h-5 w-5 text-emerald-600" />
-                    <span className="text-slate-700">1 profissional</span>
+                    <span className="text-slate-700">Sistema de agenda via web</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <CheckCircle2 className="h-5 w-5 text-emerald-600" />
-                    <span className="text-slate-700">Agenda básica</span>
+                    <span className="text-slate-700">Gestão de pacientes</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <CheckCircle2 className="h-5 w-5 text-emerald-600" />
-                    <span className="text-slate-700">Lembretes manuais</span>
+                    <span className="text-slate-700">Visualizações semanal e mensal</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <CheckCircle2 className="h-5 w-5 text-emerald-600" />
+                    <span className="text-slate-700">Relatórios básicos</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <CheckCircle2 className="h-5 w-5 text-emerald-600" />
@@ -373,7 +377,7 @@ const Landing = () => {
                 </div>
                 <Link to="/auth" className="block">
                   <Button className="w-full bg-slate-900 hover:bg-slate-800 text-white">
-                    Começar grátis
+                    Começar agora
                   </Button>
                 </Link>
               </CardContent>
@@ -382,35 +386,35 @@ const Landing = () => {
             <Card className="border-2 border-emerald-500 shadow-xl relative">
               <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
                 <Badge className="bg-emerald-600 text-white px-4 py-2 rounded-full">
-                  Mais popular
+                  Mais completo
                 </Badge>
               </div>
               <CardHeader className="text-center pb-6 pt-8">
                 <CardTitle className="text-2xl text-slate-900">Pro</CardTitle>
-                <div className="text-4xl font-bold text-emerald-600">R$ 49</div>
+                <div className="text-4xl font-bold text-emerald-600">R$ 99,90</div>
                 <p className="text-slate-600">Por mês</p>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="space-y-3">
                   <div className="flex items-center gap-3">
                     <CheckCircle2 className="h-5 w-5 text-emerald-600" />
-                    <span className="text-slate-700">Até 5 profissionais</span>
+                    <span className="text-slate-700">Tudo do plano Básico</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <CheckCircle2 className="h-5 w-5 text-emerald-600" />
-                    <span className="text-slate-700">Automações avançadas</span>
+                    <span className="text-slate-700">Automações de lembretes</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <CheckCircle2 className="h-5 w-5 text-emerald-600" />
-                    <span className="text-slate-700">Relatórios completos</span>
+                    <span className="text-slate-700">Controle total via WhatsApp</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <CheckCircle2 className="h-5 w-5 text-emerald-600" />
+                    <span className="text-slate-700">Relatórios avançados</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <CheckCircle2 className="h-5 w-5 text-emerald-600" />
                     <span className="text-slate-700">Suporte prioritário</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <CheckCircle2 className="h-5 w-5 text-emerald-600" />
-                    <span className="text-slate-700">Integrações</span>
                   </div>
                 </div>
                 <Link to="/auth" className="block">
@@ -441,7 +445,7 @@ const Landing = () => {
               </Button>
             </Link>
             <Button size="lg" variant="outline" className="px-8 py-4 text-lg border-2 border-white/30 text-white hover:bg-white/10">
-              Falar com especialista
+              Ver demonstração
             </Button>
           </div>
         </div>
