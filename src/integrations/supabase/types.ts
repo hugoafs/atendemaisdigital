@@ -98,6 +98,62 @@ export type Database = {
         }
         Relationships: []
       }
+      professionals: {
+        Row: {
+          id: string
+          user_id: string
+          full_name: string
+          email: string
+          phone: string | null
+          professional_type: string
+          specialty: string | null
+          clinic_name: string | null
+          city: string
+          state: string
+          plan: string
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          full_name: string
+          email: string
+          phone?: string | null
+          professional_type: string
+          specialty?: string | null
+          clinic_name?: string | null
+          city: string
+          state: string
+          plan?: string
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          full_name?: string
+          email?: string
+          phone?: string | null
+          professional_type?: string
+          specialty?: string | null
+          clinic_name?: string | null
+          city?: string
+          state?: string
+          plan?: string
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "professionals_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -112,6 +168,8 @@ export type Database = {
       appointment_status: "scheduled" | "confirmed" | "completed" | "cancelled"
       consent_type: "data_collection" | "health_data_processing"
       user_role: "admin" | "doctor" | "staff"
+      professional_type: "psicologo" | "psiquiatra" | "fisioterapeuta" | "nutricionista" | "fonoaudiologo" | "terapeuta" | "outro"
+      plan_type: "basic" | "pro"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -230,6 +288,8 @@ export const Constants = {
       appointment_status: ["scheduled", "confirmed", "completed", "cancelled"],
       consent_type: ["data_collection", "health_data_processing"],
       user_role: ["admin", "doctor", "staff"],
+      professional_type: ["psicologo", "psiquiatra", "fisioterapeuta", "nutricionista", "fonoaudiologo", "terapeuta", "outro"],
+      plan_type: ["basic", "pro"],
     },
   },
 } as const

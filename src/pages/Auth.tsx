@@ -10,6 +10,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2, User, Mail, Phone, Building, GraduationCap, MapPin } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
+import { Constants } from '@/integrations/supabase/types';
 
 const Auth = () => {
   // Estados para login
@@ -92,21 +94,48 @@ const Auth = () => {
     }
 
     try {
-      const { data, error } = await signUp(signUpData.email, signUpData.password);
+      // Primeiro, criar o usuário no auth
+      const { data: authData, error: authError } = await signUp(signUpData.email, signUpData.password);
       
-      if (error) {
+      if (authError) {
         toast({
           title: 'Erro no cadastro',
-          description: error.message,
+          description: authError.message,
           variant: 'destructive',
         });
-      } else {
-        // Se o cadastro foi bem-sucedido, podemos atualizar os metadados do usuário
-        // Nota: Isso seria feito após a confirmação do email em um sistema real
-        toast({
-          title: 'Cadastro realizado com sucesso!',
-          description: 'Verifique seu email para confirmar a conta.',
-        });
+        return;
+      }
+
+      if (authData.user) {
+        // Depois, inserir os dados na tabela professionals
+        const { error: profileError } = await supabase
+          .from('professionals')
+          .insert({
+            user_id: authData.user.id,
+            full_name: signUpData.fullName,
+            email: signUpData.email,
+            phone: signUpData.phone,
+            professional_type: signUpData.professionalType,
+            specialty: signUpData.specialty,
+            clinic_name: signUpData.clinicName,
+            city: signUpData.city,
+            state: signUpData.state,
+            plan: signUpData.plan
+          });
+
+        if (profileError) {
+          toast({
+            title: 'Erro ao salvar perfil',
+            description: 'Perfil criado mas dados não foram salvos. Entre em contato com o suporte.',
+            variant: 'destructive',
+          });
+        } else {
+          toast({
+            title: 'Cadastro realizado com sucesso!',
+            description: 'Verifique seu email para confirmar a conta.',
+          });
+        }
+
         // Limpar formulário
         setSignUpData({
           fullName: '',
@@ -261,13 +290,11 @@ const Auth = () => {
                         <SelectValue placeholder="Selecione..." />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="psicologo">Psicólogo</SelectItem>
-                        <SelectItem value="psiquiatra">Psiquiatra</SelectItem>
-                        <SelectItem value="fisioterapeuta">Fisioterapeuta</SelectItem>
-                        <SelectItem value="nutricionista">Nutricionista</SelectItem>
-                        <SelectItem value="fonoaudiologo">Fonoaudiólogo</SelectItem>
-                        <SelectItem value="terapeuta">Terapeuta</SelectItem>
-                        <SelectItem value="outro">Outro</SelectItem>
+                        {Constants.public.Enums.professional_type.map((type) => (
+                          <SelectItem key={type} value={type}>
+                            {type.charAt(0).toUpperCase() + type.slice(1)}
+                          </SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                   </div>
