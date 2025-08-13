@@ -108,14 +108,29 @@ const Auth = () => {
 
       if (authData.user) {
         // Depois, inserir os dados na tabela professionals
-        const { error: profileError } = await supabase
+        console.log('Tentando inserir dados do profissional:', {
+          id: authData.user.id,
+          name: signUpData.fullName,
+          email: signUpData.email,
+          phone: signUpData.phone,
+          professional_type: signUpData.professionalType,
+          specialty: signUpData.specialty,
+          clinic_name: signUpData.clinicName,
+          city: signUpData.city,
+          state: signUpData.state,
+          plan: signUpData.plan,
+          is_active: true,
+          working_hour: {}
+        });
+
+        const { data: insertData, error: profileError } = await supabase
           .from('professionals')
           .insert({
             id: authData.user.id,
             name: signUpData.fullName,
             email: signUpData.email,
             phone: signUpData.phone,
-            professional_t: signUpData.professionalType,
+            professional_type: signUpData.professionalType,
             specialty: signUpData.specialty,
             clinic_name: signUpData.clinicName,
             city: signUpData.city,
@@ -123,15 +138,18 @@ const Auth = () => {
             plan: signUpData.plan,
             is_active: true,
             working_hour: {}
-          });
+          })
+          .select();
 
         if (profileError) {
+          console.error('Erro detalhado ao inserir perfil:', profileError);
           toast({
             title: 'Erro ao salvar perfil',
-            description: 'Perfil criado mas dados não foram salvos. Entre em contato com o suporte.',
+            description: `Erro: ${profileError.message}. Código: ${profileError.code}`,
             variant: 'destructive',
           });
         } else {
+          console.log('Perfil inserido com sucesso:', insertData);
           toast({
             title: 'Cadastro realizado com sucesso!',
             description: 'Verifique seu email para confirmar a conta.',

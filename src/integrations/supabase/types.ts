@@ -104,7 +104,7 @@ export type Database = {
           name: string | null
           email: string | null
           phone: string | null
-          professional_t: string | null
+          professional_type: string | null
           specialty: string | null
           city: string | null
           working_hour: Json | null
@@ -120,7 +120,7 @@ export type Database = {
           name?: string | null
           email?: string | null
           phone?: string | null
-          professional_t?: string | null
+          professional_type?: string | null
           specialty?: string | null
           city?: string | null
           working_hour?: Json | null
@@ -136,7 +136,7 @@ export type Database = {
           name?: string | null
           email?: string | null
           phone?: string | null
-          professional_t?: string | null
+          professional_type?: string | null
           specialty?: string | null
           city?: string | null
           working_hour?: Json | null
@@ -147,15 +147,7 @@ export type Database = {
           clinic_name?: string | null
           plan?: string | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "professionals_id_fkey"
-            columns: ["id"]
-            isOneToOne: true
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          }
-        ]
+        Relationships: []
       }
     }
     Views: {
