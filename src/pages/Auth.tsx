@@ -111,16 +111,18 @@ const Auth = () => {
         const { error: profileError } = await supabase
           .from('professionals')
           .insert({
-            user_id: authData.user.id,
-            full_name: signUpData.fullName,
+            id: authData.user.id,
+            name: signUpData.fullName,
             email: signUpData.email,
             phone: signUpData.phone,
-            professional_type: signUpData.professionalType,
+            professional_t: signUpData.professionalType,
             specialty: signUpData.specialty,
             clinic_name: signUpData.clinicName,
             city: signUpData.city,
             state: signUpData.state,
-            plan: signUpData.plan
+            plan: signUpData.plan,
+            is_active: true,
+            working_hour: {}
           });
 
         if (profileError) {

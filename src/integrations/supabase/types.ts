@@ -101,53 +101,56 @@ export type Database = {
       professionals: {
         Row: {
           id: string
-          user_id: string
-          full_name: string
-          email: string
+          name: string | null
+          email: string | null
           phone: string | null
-          professional_type: string
+          professional_t: string | null
           specialty: string | null
+          city: string | null
+          working_hour: Json | null
+          is_active: boolean | null
+          created_at: string | null
+          updated_at: string | null
+          state: string | null
           clinic_name: string | null
-          city: string
-          state: string
-          plan: string
-          created_at: string
-          updated_at: string
+          plan: string | null
         }
         Insert: {
           id?: string
-          user_id: string
-          full_name: string
-          email: string
+          name?: string | null
+          email?: string | null
           phone?: string | null
-          professional_type: string
+          professional_t?: string | null
           specialty?: string | null
+          city?: string | null
+          working_hour?: Json | null
+          is_active?: boolean | null
+          created_at?: string | null
+          updated_at?: string | null
+          state?: string | null
           clinic_name?: string | null
-          city: string
-          state: string
-          plan?: string
-          created_at?: string
-          updated_at?: string
+          plan?: string | null
         }
         Update: {
           id?: string
-          user_id?: string
-          full_name?: string
-          email?: string
+          name?: string | null
+          email?: string | null
           phone?: string | null
-          professional_type?: string
+          professional_t?: string | null
           specialty?: string | null
+          city?: string | null
+          working_hour?: Json | null
+          is_active?: boolean | null
+          created_at?: string | null
+          updated_at?: string | null
+          state?: string | null
           clinic_name?: string | null
-          city?: string
-          state?: string
-          plan?: string
-          created_at?: string
-          updated_at?: string
+          plan?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: "professionals_user_id_fkey"
-            columns: ["user_id"]
+            foreignKeyName: "professionals_id_fkey"
+            columns: ["id"]
             isOneToOne: true
             referencedRelation: "users"
             referencedColumns: ["id"]
@@ -165,14 +168,19 @@ export type Database = {
       }
     }
     Enums: {
-      appointment_status: "scheduled" | "confirmed" | "completed" | "cancelled"
-      consent_type: "data_collection" | "health_data_processing"
-      user_role: "admin" | "doctor" | "staff"
-      professional_type: "psicologo" | "psiquiatra" | "fisioterapeuta" | "nutricionista" | "fonoaudiologo" | "terapeuta" | "outro"
+      professional_type: "medico" | "dentista" | "fisioterapeuta" | "psicologo" | "nutricionista" | "outro"
       plan_type: "basic" | "pro"
     }
     CompositeTypes: {
       [_ in never]: never
+    }
+    Constants: {
+      public: {
+        Enums: {
+          professional_type: ["medico", "dentista", "fisioterapeuta", "psicologo", "nutricionista", "outro"]
+          plan_type: ["basic", "pro"]
+        }
+      }
     }
   }
 }
