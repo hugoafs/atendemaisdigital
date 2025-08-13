@@ -133,48 +133,55 @@ const Index = () => {
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50/30">
       {/* Top Navigation Bar */}
       <nav className="sticky top-0 z-50 bg-white/95 backdrop-blur-xl border-b border-gray-200 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            {/* Logo */}
-            <div className="flex items-center">
+        <div className="w-full px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16 gap-4">
+            {/* Logo - Flexible */}
+            <div className="flex items-center flex-shrink-0">
               <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center mr-3">
                 <Sparkles className="h-5 w-5 text-white" />
               </div>
-              <h1 className="text-xl font-bold bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
+              <h1 className="text-lg sm:text-xl font-bold bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent whitespace-nowrap">
                 Atende+ Digital
               </h1>
             </div>
 
-            {/* Navigation Items - Desktop */}
-            <div className="hidden md:flex items-center space-x-1">
-              {navItems.map((item) => (
-                <Link
-                  key={item.name}
-                  to={item.href}
-                  className={`flex items-center px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
-                    isActive(item.href)
-                      ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg'
-                      : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-                  }`}
-                >
-                  <item.icon className={`mr-2 h-4 w-4 ${
-                    isActive(item.href) ? 'text-white' : 'text-gray-400'
-                  }`} />
-                  {item.name}
-                </Link>
-              ))}
+            {/* Center Navigation - Flexible Container */}
+            <div className="hidden lg:flex items-center justify-center flex-1 max-w-2xl mx-4">
+              <div className="flex items-center space-x-1 bg-gray-50 rounded-full p-1">
+                {navItems.map((item) => (
+                  <Link
+                    key={item.name}
+                    to={item.href}
+                    className={`flex items-center px-3 py-2 text-sm font-medium rounded-full transition-all duration-300 whitespace-nowrap ${
+                      isActive(item.href)
+                        ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg transform scale-105'
+                        : 'text-gray-600 hover:text-gray-900 hover:bg-white hover:shadow-sm'
+                    }`}
+                  >
+                    <item.icon className={`mr-2 h-4 w-4 ${
+                      isActive(item.href) ? 'text-white' : 'text-gray-400'
+                    }`} />
+                    <span className="hidden xl:inline">{item.name}</span>
+                  </Link>
+                ))}
+              </div>
             </div>
 
-            {/* Right Side - Search, Notifications, User Menu */}
-            <div className="flex items-center gap-x-4">
-              {/* Search Bar */}
-              <div className="relative hidden sm:block">
+            {/* Right Side - Flexible Actions */}
+            <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+              {/* Search Bar - Adaptive Width */}
+              <div className="relative hidden md:block">
                 <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
                 <Input
                   placeholder="Pesquisar..."
-                  className="pl-10 w-64 bg-gray-50 border-0 focus:bg-white focus:ring-2 focus:ring-blue-500/20"
+                  className="pl-10 w-32 lg:w-48 xl:w-64 bg-gray-50 border-0 focus:bg-white focus:ring-2 focus:ring-blue-500/20 transition-all duration-200 focus:w-64"
                 />
               </div>
+
+              {/* Quick Search Button for Small Screens */}
+              <Button variant="ghost" size="sm" className="md:hidden">
+                <Search className="h-5 w-5" />
+              </Button>
 
               {/* Notifications */}
               <Button variant="ghost" size="sm" className="relative">
@@ -184,10 +191,10 @@ const Index = () => {
                 </Badge>
               </Button>
 
-              {/* New Appointment Button */}
+              {/* New Appointment Button - Responsive */}
               <CreateAppointmentDialog>
-                <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg">
-                  <Plus className="h-4 w-4 mr-2" />
+                <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg transition-all duration-200 hover:shadow-xl hover:scale-105">
+                  <Plus className="h-4 w-4 sm:mr-2" />
                   <span className="hidden sm:inline">Nova Consulta</span>
                 </Button>
               </CreateAppointmentDialog>
@@ -195,7 +202,7 @@ const Index = () => {
               {/* User Menu */}
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="relative h-10 w-10 rounded-full">
+                  <Button variant="ghost" className="relative h-10 w-10 rounded-full hover:ring-2 hover:ring-blue-200 transition-all duration-200">
                     <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white font-semibold">
                       {user?.email?.charAt(0).toUpperCase() || 'U'}
                     </div>
@@ -229,33 +236,59 @@ const Index = () => {
             </div>
           </div>
 
-          {/* Mobile Navigation Menu */}
-          <div className="md:hidden border-t border-gray-200 pt-2 pb-3">
-            <div className="flex flex-wrap gap-2">
-              {navItems.map((item) => (
-                <Link
-                  key={item.name}
-                  to={item.href}
-                  className={`flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
-                    isActive(item.href)
-                      ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg'
-                      : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-                  }`}
-                >
-                  <item.icon className={`mr-2 h-4 w-4 ${
-                    isActive(item.href) ? 'text-white' : 'text-gray-400'
-                  }`} />
-                  {item.name}
-                </Link>
-              ))}
+          {/* Mobile/Tablet Navigation Menu - Collapsible */}
+          <div className="lg:hidden border-t border-gray-200">
+            {/* Tablet Navigation - Horizontal Scroll */}
+            <div className="hidden md:block lg:hidden py-2">
+              <div className="flex items-center space-x-2 overflow-x-auto scrollbar-hide">
+                {navItems.map((item) => (
+                  <Link
+                    key={item.name}
+                    to={item.href}
+                    className={`flex items-center px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 whitespace-nowrap ${
+                      isActive(item.href)
+                        ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg'
+                        : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                    }`}
+                  >
+                    <item.icon className={`mr-2 h-4 w-4 ${
+                      isActive(item.href) ? 'text-white' : 'text-gray-400'
+                    }`} />
+                    {item.name}
+                  </Link>
+                ))}
+              </div>
             </div>
-            {/* Mobile Search */}
-            <div className="relative mt-3">
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
-              <Input
-                placeholder="Pesquisar pacientes, consultas..."
-                className="pl-10 bg-gray-50 border-0 focus:bg-white focus:ring-2 focus:ring-blue-500/20"
-              />
+
+            {/* Mobile Navigation - Grid Layout */}
+            <div className="md:hidden py-3">
+              <div className="grid grid-cols-2 gap-2 mb-3">
+                {navItems.map((item) => (
+                  <Link
+                    key={item.name}
+                    to={item.href}
+                    className={`flex items-center justify-center px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
+                      isActive(item.href)
+                        ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg'
+                        : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                    }`}
+                  >
+                    <item.icon className={`mr-2 h-4 w-4 ${
+                      isActive(item.href) ? 'text-white' : 'text-gray-400'
+                    }`} />
+                    <span className="truncate">{item.name}</span>
+                  </Link>
+                ))}
+              </div>
+              
+              {/* Mobile Search */}
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+                <Input
+                  placeholder="Pesquisar pacientes, consultas..."
+                  className="pl-10 bg-gray-50 border-0 focus:bg-white focus:ring-2 focus:ring-blue-500/20"
+                />
+              </div>
             </div>
           </div>
         </div>
