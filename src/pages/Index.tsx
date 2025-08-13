@@ -5,13 +5,15 @@ import {
   DollarSign, 
   TrendingUp, 
   Bell, 
-  Menu, 
   Plus,
   Activity,
-  Clock,
   Search,
   Filter,
-  BarChart3
+  BarChart3,
+  Settings,
+  LogOut,
+  Sparkles,
+  User
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -23,13 +25,54 @@ import { Skeleton } from '@/components/ui/skeleton';
 import AppointmentCard from '@/components/AppointmentCard';
 import CreateAppointmentDialog from '@/components/CreateAppointmentDialog';
 import CreatePatientDialog from '@/components/CreatePatientDialog';
-import ModernSidebar from '@/components/Sidebar';
 import ModernStatsCard from '@/components/ModernStatsCard';
+import { useAuth } from '@/contexts/AuthContext';
+import { useToast } from '@/hooks/use-toast';
+import { Link, useLocation } from 'react-router-dom';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const Index = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const { user, signOut } = useAuth();
+  const { toast } = useToast();
+  const location = useLocation();
   const { data: todayAppointments, isLoading: appointmentsLoading } = useTodayAppointments();
   const { data: patients } = usePatients();
+
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+      toast({
+        title: 'Logout realizado com sucesso',
+        description: 'Até a próxima!',
+      });
+    } catch (error) {
+      toast({
+        title: 'Erro no logout',
+        description: 'Tente novamente.',
+        variant: 'destructive',
+      });
+    }
+  };
+
+  const navItems = [
+    { name: 'Dashboard', icon: BarChart3, href: '/app', color: 'blue' },
+    { name: 'Agenda', icon: Calendar, href: '/agenda', color: 'green' },
+    { name: 'Pacientes', icon: Users, href: '/patients', color: 'purple' },
+    { name: 'Relatórios', icon: TrendingUp, href: '/reports', color: 'orange' },
+    { name: 'Notificações', icon: Bell, href: '/notifications', color: 'red' },
+  ];
+
+  const isActive = (href: string) => {
+    if (href === '/app' && (location.pathname === '/' || location.pathname === '/app')) return true;
+    if (href !== '/app' && location.pathname.startsWith(href)) return true;
+    return false;
+  };
 
   // Calculate stats
   const totalAppointmentsToday = todayAppointments?.length || 0;
@@ -88,52 +131,138 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50/30">
-      {/* Sidebar */}
-      <ModernSidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
+      {/* Top Navigation Bar */}
+      <nav className="sticky top-0 z-50 bg-white/95 backdrop-blur-xl border-b border-gray-200 shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            {/* Logo */}
+            <div className="flex items-center">
+              <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center mr-3">
+                <Sparkles className="h-5 w-5 text-white" />
+              </div>
+              <h1 className="text-xl font-bold bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
+                Atende+ Digital
+              </h1>
+            </div>
 
-      {/* Main Content */}
-      <div className="lg:pl-64">
-        {/* Top Bar */}
-        <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white/80 backdrop-blur-xl px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => setIsSidebarOpen(true)}
-            className="lg:hidden"
-          >
-            <Menu className="h-5 w-5" />
-          </Button>
+            {/* Navigation Items - Desktop */}
+            <div className="hidden md:flex items-center space-x-1">
+              {navItems.map((item) => (
+                <Link
+                  key={item.name}
+                  to={item.href}
+                  className={`flex items-center px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
+                    isActive(item.href)
+                      ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg'
+                      : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                  }`}
+                >
+                  <item.icon className={`mr-2 h-4 w-4 ${
+                    isActive(item.href) ? 'text-white' : 'text-gray-400'
+                  }`} />
+                  {item.name}
+                </Link>
+              ))}
+            </div>
 
-          <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
-            <div className="relative flex flex-1 items-center">
-              <div className="relative w-full max-w-md">
+            {/* Right Side - Search, Notifications, User Menu */}
+            <div className="flex items-center gap-x-4">
+              {/* Search Bar */}
+              <div className="relative hidden sm:block">
                 <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
                 <Input
-                  placeholder="Pesquisar pacientes, consultas..."
-                  className="pl-10 bg-gray-50 border-0 focus:bg-white focus:ring-2 focus:ring-blue-500/20"
+                  placeholder="Pesquisar..."
+                  className="pl-10 w-64 bg-gray-50 border-0 focus:bg-white focus:ring-2 focus:ring-blue-500/20"
                 />
               </div>
-            </div>
-            <div className="flex items-center gap-x-4 lg:gap-x-6">
+
+              {/* Notifications */}
               <Button variant="ghost" size="sm" className="relative">
                 <Bell className="h-5 w-5" />
                 <Badge className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-red-500 text-white text-xs flex items-center justify-center">
                   3
                 </Badge>
               </Button>
-              <div className="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-200" />
+
+              {/* New Appointment Button */}
               <CreateAppointmentDialog>
                 <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg">
                   <Plus className="h-4 w-4 mr-2" />
-                  Nova Consulta
+                  <span className="hidden sm:inline">Nova Consulta</span>
                 </Button>
               </CreateAppointmentDialog>
+
+              {/* User Menu */}
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" className="relative h-10 w-10 rounded-full">
+                    <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white font-semibold">
+                      {user?.email?.charAt(0).toUpperCase() || 'U'}
+                    </div>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56" align="end" forceMount>
+                  <div className="flex items-center justify-start gap-2 p-2">
+                    <div className="flex flex-col space-y-1 leading-none">
+                      <p className="font-medium text-sm">
+                        {user?.email?.split('@')[0] || 'Usuário'}
+                      </p>
+                      <p className="w-[200px] truncate text-xs text-muted-foreground">
+                        {user?.email}
+                      </p>
+                    </div>
+                  </div>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem asChild>
+                    <Link to="/settings" className="cursor-pointer">
+                      <Settings className="mr-2 h-4 w-4" />
+                      <span>Configurações</span>
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={handleSignOut} className="cursor-pointer text-red-600">
+                    <LogOut className="mr-2 h-4 w-4" />
+                    <span>Sair</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+          </div>
+
+          {/* Mobile Navigation Menu */}
+          <div className="md:hidden border-t border-gray-200 pt-2 pb-3">
+            <div className="flex flex-wrap gap-2">
+              {navItems.map((item) => (
+                <Link
+                  key={item.name}
+                  to={item.href}
+                  className={`flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
+                    isActive(item.href)
+                      ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg'
+                      : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                  }`}
+                >
+                  <item.icon className={`mr-2 h-4 w-4 ${
+                    isActive(item.href) ? 'text-white' : 'text-gray-400'
+                  }`} />
+                  {item.name}
+                </Link>
+              ))}
+            </div>
+            {/* Mobile Search */}
+            <div className="relative mt-3">
+              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+              <Input
+                placeholder="Pesquisar pacientes, consultas..."
+                className="pl-10 bg-gray-50 border-0 focus:bg-white focus:ring-2 focus:ring-blue-500/20"
+              />
             </div>
           </div>
         </div>
+      </nav>
 
-        {/* Dashboard Content */}
-        <main className="py-8 px-4 sm:px-6 lg:px-8">
+      {/* Main Content */}
+      <main className="py-8 px-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-7xl">
             {/* Header */}
             <div className="mb-8">
@@ -286,15 +415,6 @@ const Index = () => {
             </div>
           </div>
         </main>
-      </div>
-
-      {/* Mobile Sidebar Overlay */}
-      {isSidebarOpen && (
-        <div 
-          className="fixed inset-0 bg-gray-600 bg-opacity-75 z-40 lg:hidden"
-          onClick={() => setIsSidebarOpen(false)}
-        />
-      )}
     </div>
   );
 };
