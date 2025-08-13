@@ -72,7 +72,27 @@ const Auth = () => {
     e.preventDefault();
     setLoading(true);
 
-    // Validações
+    // Validações do formulário
+    if (!signUpData.fullName.trim()) {
+      toast({
+        title: 'Erro no cadastro',
+        description: 'Nome completo é obrigatório.',
+        variant: 'destructive',
+      });
+      setLoading(false);
+      return;
+    }
+
+    if (!signUpData.email.trim()) {
+      toast({
+        title: 'Erro no cadastro',
+        description: 'Email é obrigatório.',
+        variant: 'destructive',
+      });
+      setLoading(false);
+      return;
+    }
+
     if (signUpData.password !== signUpData.confirmPassword) {
       toast({
         title: 'Erro no cadastro',
@@ -87,6 +107,26 @@ const Auth = () => {
       toast({
         title: 'Erro no cadastro',
         description: 'A senha deve ter pelo menos 6 caracteres.',
+        variant: 'destructive',
+      });
+      setLoading(false);
+      return;
+    }
+
+    if (!signUpData.phone.trim()) {
+      toast({
+        title: 'Erro no cadastro',
+        description: 'Telefone é obrigatório.',
+        variant: 'destructive',
+      });
+      setLoading(false);
+      return;
+    }
+
+    if (!signUpData.professionalType) {
+      toast({
+        title: 'Erro no cadastro',
+        description: 'Tipo de profissional é obrigatório.',
         variant: 'destructive',
       });
       setLoading(false);
@@ -108,53 +148,52 @@ const Auth = () => {
 
       if (authData.user) {
         // Depois, inserir os dados na tabela professionals
-        console.log('Tentando inserir dados do profissional:', {
+        console.log('🚀 Usuário Auth criado, preparando dados do profissional...');
+
+        // Preparar dados limpos para inserção
+        const professionalData = {
           user_id: authData.user.id,
-          name: signUpData.fullName,
-          email: signUpData.email,
-          phone: signUpData.phone,
+          name: signUpData.fullName.trim(),
+          email: signUpData.email.toLowerCase().trim(),
+          phone: signUpData.phone.replace(/\D/g, ''), // Remove caracteres não numéricos
           professional_type: signUpData.professionalType,
-          specialty: signUpData.specialty,
-          clinic_name: signUpData.clinicName,
-          city: signUpData.city,
+          specialty: signUpData.specialty.trim(),
+          clinic_name: signUpData.clinicName.trim(),
+          city: signUpData.city.trim(),
           state: signUpData.state,
           plan: signUpData.plan,
           is_active: true,
           working_hours: ""
-        });
+        };
 
         const { data: insertData, error: profileError } = await supabase
           .from('professionals')
-          .insert({
-            user_id: authData.user.id,
-            name: signUpData.fullName,
-            email: signUpData.email,
-            phone: signUpData.phone,
-            professional_type: signUpData.professionalType,
-            specialty: signUpData.specialty,
-            clinic_name: signUpData.clinicName,
-            city: signUpData.city,
-            state: signUpData.state,
-            plan: signUpData.plan,
-            is_active: true,
-            working_hours: ""
-          })
-          .select();
+          .insert(professionalData)
+          .select()
+          .single();
 
         if (profileError) {
-          console.error('Erro detalhado ao inserir perfil:', profileError);
+          console.error('❌ Erro ao inserir dados do profissional:', profileError);
+          console.error('📋 Dados que causaram erro:', professionalData);
+          
           toast({
             title: 'Erro ao salvar perfil',
             description: `Erro: ${profileError.message}. Código: ${profileError.code}`,
             variant: 'destructive',
           });
-        } else {
-          console.log('Perfil inserido com sucesso:', insertData);
-          toast({
-            title: 'Cadastro realizado com sucesso!',
-            description: 'Verifique seu email para confirmar a conta.',
-          });
+          return;
         }
+
+        console.log('✅ Perfil profissional criado com sucesso:', insertData);
+        
+        toast({
+          title: 'Cadastro realizado com sucesso!',
+          description: 'Bem-vindo ao Atende+ Digital!',
+          variant: 'default',
+        });
+        
+        // Redirecionar para a área logada
+        navigate('/app');
 
         // Limpar formulário
         setSignUpData({
