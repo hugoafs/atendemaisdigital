@@ -23,7 +23,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import AppointmentCard from '@/components/AppointmentCard';
 import CreateAppointmentDialog from '@/components/CreateAppointmentDialog';
 import CreatePatientDialog from '@/components/CreatePatientDialog';
-import ModernSidebar from '@/components/ModernSidebar';
+import ModernSidebar from '@/components/Sidebar';
 import ModernStatsCard from '@/components/ModernStatsCard';
 
 const Index = () => {

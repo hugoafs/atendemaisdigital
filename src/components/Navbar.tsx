@@ -1,5 +1,5 @@
 
-import { Calendar, Settings, BarChart3, Bell, Menu, X, LogOut, Users, TrendingUp } from 'lucide-react';
+import { Calendar, Settings, BarChart3, Bell, Menu, X, LogOut } from 'lucide-react';
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -29,17 +29,15 @@ const Navbar = () => {
   };
 
   const navItems = [
-    { name: 'Dashboard', icon: BarChart3, href: '/app' },
+    { name: 'Dashboard', icon: BarChart3, href: '/' },
     { name: 'Agenda', icon: Calendar, href: '/agenda' },
-    { name: 'Pacientes', icon: Users, href: '/patients' },
-    { name: 'Relatórios', icon: TrendingUp, href: '/reports' },
-    { name: 'Notificações', icon: Bell, href: '/notifications' },
-    { name: 'Configurações', icon: Settings, href: '/settings' },
+    { name: 'Notificações', icon: Bell, href: '#notifications' },
+    { name: 'Configurações', icon: Settings, href: '#settings' },
   ];
 
   const isActive = (href: string) => {
-    if (href === '/app' && (location.pathname === '/' || location.pathname === '/app')) return true;
-    if (href !== '/app' && location.pathname.startsWith(href)) return true;
+    if (href === '/' && location.pathname === '/') return true;
+    if (href !== '/' && location.pathname.startsWith(href)) return true;
     return false;
   };
 
@@ -50,14 +48,7 @@ const Navbar = () => {
           <div className="flex items-center">
             <div className="flex-shrink-0">
               <Link to="/">
-                <div className="flex items-center">
-                  <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center mr-3">
-                    <Calendar className="h-5 w-5 text-white" />
-                  </div>
-                  <h1 className="text-xl font-bold bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
-                    Atende+ Digital
-                  </h1>
-                </div>
+                <h1 className="text-2xl font-bold text-blue-600">PsicoManager</h1>
               </Link>
             </div>
           </div>
