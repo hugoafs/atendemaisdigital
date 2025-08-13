@@ -107,7 +107,7 @@ export type Database = {
           professional_type: string | null
           specialty: string | null
           city: string | null
-          working_hour: Json | null
+          working_hours: string | null
           is_active: boolean | null
           created_at: string | null
           updated_at: string | null
@@ -123,7 +123,7 @@ export type Database = {
           professional_type?: string | null
           specialty?: string | null
           city?: string | null
-          working_hour?: Json | null
+          working_hours?: string | null
           is_active?: boolean | null
           created_at?: string | null
           updated_at?: string | null
@@ -139,7 +139,7 @@ export type Database = {
           professional_type?: string | null
           specialty?: string | null
           city?: string | null
-          working_hour?: Json | null
+          working_hours?: string | null
           is_active?: boolean | null
           created_at?: string | null
           updated_at?: string | null

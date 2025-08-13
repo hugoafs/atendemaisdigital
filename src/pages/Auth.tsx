@@ -109,7 +109,6 @@ const Auth = () => {
       if (authData.user) {
         // Depois, inserir os dados na tabela professionals
         console.log('Tentando inserir dados do profissional:', {
-          id: authData.user.id,
           name: signUpData.fullName,
           email: signUpData.email,
           phone: signUpData.phone,
@@ -120,13 +119,12 @@ const Auth = () => {
           state: signUpData.state,
           plan: signUpData.plan,
           is_active: true,
-          working_hour: {}
+          working_hours: ""
         });
 
         const { data: insertData, error: profileError } = await supabase
           .from('professionals')
           .insert({
-            id: authData.user.id,
             name: signUpData.fullName,
             email: signUpData.email,
             phone: signUpData.phone,
@@ -137,7 +135,7 @@ const Auth = () => {
             state: signUpData.state,
             plan: signUpData.plan,
             is_active: true,
-            working_hour: {}
+            working_hours: ""
           })
           .select();
 
