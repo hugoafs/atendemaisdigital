@@ -61,6 +61,31 @@ const AppLayout = ({ children, title, subtitle }: AppLayoutProps) => {
     return false;
   };
 
+  const getActiveClasses = (color: string) => {
+    const colorMap: { [key: string]: string } = {
+      blue: 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg',
+      green: 'bg-gradient-to-r from-green-500 to-green-600 text-white shadow-lg',
+      purple: 'bg-gradient-to-r from-purple-500 to-purple-600 text-white shadow-lg',
+      orange: 'bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-lg',
+      red: 'bg-gradient-to-r from-red-500 to-red-600 text-white shadow-lg',
+      gray: 'bg-gradient-to-r from-gray-500 to-gray-600 text-white shadow-lg',
+    };
+    return colorMap[color] || colorMap.blue;
+  };
+
+  const getIconClasses = (color: string, isActive: boolean) => {
+    if (isActive) return 'text-white';
+    const colorMap: { [key: string]: string } = {
+      blue: 'text-blue-500',
+      green: 'text-green-500',
+      purple: 'text-purple-500',
+      orange: 'text-orange-500',
+      red: 'text-red-500',
+      gray: 'text-gray-500',
+    };
+    return colorMap[color] || colorMap.blue;
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50/30">
       {/* Sidebar */}
@@ -96,12 +121,12 @@ const AppLayout = ({ children, title, subtitle }: AppLayoutProps) => {
                 to={item.href}
                 className={`flex items-center px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200 group ${
                   isActive(item.href)
-                    ? `bg-gradient-to-r from-${item.color}-500 to-${item.color}-600 text-white shadow-lg`
+                    ? getActiveClasses(item.color)
                     : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
                 }`}
               >
                 <item.icon className={`mr-3 h-5 w-5 ${
-                  isActive(item.href) ? 'text-white' : `text-${item.color}-500`
+                  getIconClasses(item.color, isActive(item.href))
                 } group-hover:scale-110 transition-transform duration-200`} />
                 {item.name}
               </Link>
