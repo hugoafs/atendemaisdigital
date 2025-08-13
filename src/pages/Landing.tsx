@@ -9,15 +9,11 @@ import {
   Bell,
   BarChart2,
   Smartphone,
-  MessageCircle,
   Clock,
   Users,
   Shield,
   CheckCircle2,
   ArrowRight,
-  Sparkles,
-  Star,
-  Globe,
 } from "lucide-react";
 
 const Landing = () => {
@@ -129,16 +125,8 @@ const Landing = () => {
           </div>
         </section>
 
-        {/* Logos strip */}
-        <section className="mx-auto max-w-6xl px-4 pb-4">
-          <div className="flex flex-wrap items-center justify-center gap-8 opacity-70 grayscale">
-            <div className="flex items-center gap-2"><Sparkles className="h-4 w-4" /> Lumina</div>
-            <div className="flex items-center gap-2"><Globe className="h-4 w-4" /> Orbit</div>
-            <div className="flex items-center gap-2"><Star className="h-4 w-4" /> NovaLabs</div>
-            <div className="flex items-center gap-2"><Shield className="h-4 w-4" /> Sentinel</div>
-            <div className="flex items-center gap-2"><MessageCircle className="h-4 w-4" /> Wave</div>
-          </div>
-        </section>
+        {/* spacer */}
+        <section className="mx-auto max-w-6xl px-4 pb-2" />
 
         {/* Features */}
         <section id="features" className="mx-auto max-w-6xl px-4 py-16">
@@ -182,7 +170,7 @@ const Landing = () => {
             </Card>
             <Card className="transition-all duration-300 hover:shadow-emerald-500/20 hover:-translate-y-0.5">
               <CardHeader>
-                <div className="flex items-center gap-2 text-green-700"><MessageCircle className="h-5 w-5" /><CardTitle>Atendimento ágil</CardTitle></div>
+                <div className="flex items-center gap-2 text-green-700"><Clock className="h-5 w-5" /><CardTitle>Atendimento ágil</CardTitle></div>
               </CardHeader>
               <CardContent className="text-sm text-muted-foreground">
                 Fluxo de confirmação, reagendamento e finalização sem fricção, com foco na rotina do profissional.
