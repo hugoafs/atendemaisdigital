@@ -112,6 +112,25 @@ const ModernLayout = ({ children }: ModernLayoutProps) => {
               </div>
             </div>
 
+            {/* Mobile Navigation Toggle */}
+            <div className="lg:hidden">
+              <Button 
+                variant="ghost" 
+                size="sm"
+                className="p-2 rounded-lg hover:bg-gray-100"
+                onClick={() => {
+                  const mobileNav = document.getElementById('mobile-nav');
+                  if (mobileNav) {
+                    mobileNav.classList.toggle('hidden');
+                  }
+                }}
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              </Button>
+            </div>
+
             {/* Right Side - Flexible Actions */}
             <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
               {/* Search Bar - Adaptive Width */}
@@ -260,7 +279,7 @@ const ModernLayout = ({ children }: ModernLayoutProps) => {
           </div>
 
           {/* Mobile/Tablet Navigation Menu - Collapsible */}
-          <div className="lg:hidden border-t border-gray-200">
+          <div id="mobile-nav" className="lg:hidden border-t border-gray-200 hidden">
             {/* Tablet Navigation - Horizontal Scroll */}
             <div className="hidden md:block lg:hidden py-2">
               <div className="flex items-center space-x-2 overflow-x-auto scrollbar-hide">

@@ -354,8 +354,8 @@ const WeeklyCalendarView = ({ appointments, selectedDate }: WeeklyCalendarViewPr
     <TooltipProvider>
       <div className="space-y-4">
         {/* Header Compacto */}
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-3">
+        <div className="flex flex-col sm:flex-row items-center justify-between space-y-3 sm:space-y-0">
+          <div className="flex items-center space-x-2 sm:space-x-3">
             <div className="flex items-center space-x-1">
               <Button
                 variant="outline"
@@ -369,7 +369,7 @@ const WeeklyCalendarView = ({ appointments, selectedDate }: WeeklyCalendarViewPr
                 variant="outline"
                 size="sm"
                 onClick={goToToday}
-                className="bg-blue-50 border-blue-200 text-blue-700 hover:bg-blue-100 h-8 px-3"
+                className="bg-blue-50 border-blue-200 text-blue-700 hover:bg-blue-100 h-8 px-2 sm:px-3 text-xs sm:text-sm"
               >
                 Hoje
               </Button>
@@ -382,16 +382,17 @@ const WeeklyCalendarView = ({ appointments, selectedDate }: WeeklyCalendarViewPr
                 <ChevronRight className="h-4 w-4" />
               </Button>
             </div>
-            <div>
-              <h2 className="text-lg font-bold text-gray-900">
+            <div className="text-center sm:text-left">
+              <h2 className="text-sm sm:text-lg font-bold text-gray-900">
                 {weekDates[0].toLocaleDateString('pt-BR', { day: 'numeric' })} – {weekDates[6].toLocaleDateString('pt-BR', { day: 'numeric', month: 'short' })} de {weekDates[0].toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' })}
               </h2>
             </div>
           </div>
           <CreateAppointmentDialog>
-            <Button size="sm" className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
-              <Plus className="h-4 w-4 mr-2" />
-              Nova Consulta
+            <Button size="sm" className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-xs sm:text-sm">
+              <Plus className="h-4 w-4 mr-1 sm:mr-2" />
+              <span className="hidden sm:inline">Nova Consulta</span>
+              <span className="sm:hidden">Nova</span>
             </Button>
           </CreateAppointmentDialog>
         </div>
@@ -400,22 +401,22 @@ const WeeklyCalendarView = ({ appointments, selectedDate }: WeeklyCalendarViewPr
         <Card className="border-0 shadow-lg rounded-xl overflow-hidden">
           <CardContent className="p-0">
             <div className="overflow-x-auto">
-                             <div className="min-w-[1400px]">
-                 {/* Header dos dias */}
-                 <div className="grid grid-cols-8 gap-1 bg-gray-50 border-b border-gray-200" style={{ gridTemplateColumns: '80px 1fr 1fr 1fr 1fr 1fr 1fr 1fr' }}>
-                   <div className="p-3 font-semibold text-gray-700 text-sm">
-                     Horário
-                   </div>
+              <div className="min-w-[800px] sm:min-w-[1000px] lg:min-w-[1400px]">
+                {/* Header dos dias */}
+                <div className="grid grid-cols-8 gap-1 bg-gray-50 border-b border-gray-200" style={{ gridTemplateColumns: '60px 1fr 1fr 1fr 1fr 1fr 1fr 1fr' }}>
+                  <div className="p-2 sm:p-3 font-semibold text-gray-700 text-xs sm:text-sm">
+                    Horário
+                  </div>
                   {weekDates.map((date) => {
                                             const isTodayFlag = isTodayUtil(date);
                     return (
                       <div
                         key={date.toDateString()}
-                        className={`p-3 text-center border-l border-gray-200 ${
+                        className={`p-2 sm:p-3 text-center border-l border-gray-200 ${
                           isTodayFlag ? 'bg-blue-50 border-blue-200' : ''
                         }`}
                       >
-                        <div className="font-semibold text-gray-900 text-sm">
+                        <div className="font-semibold text-gray-900 text-xs sm:text-sm">
                           {date.toLocaleDateString('pt-BR', { weekday: 'short' })}
                         </div>
                         <div className="text-xs text-gray-600">
@@ -437,15 +438,15 @@ const WeeklyCalendarView = ({ appointments, selectedDate }: WeeklyCalendarViewPr
                   const isBlocked = isBlockedHour(timeSlot);
                   
                   return (
-                                         <div key={timeSlot} className="grid grid-cols-8 gap-1 border-b border-gray-100 hover:bg-gray-50 transition-colors" style={{ gridTemplateColumns: '80px 1fr 1fr 1fr 1fr 1fr 1fr 1fr' }}>
-                       {/* Coluna de horário */}
-                       <div className={`p-2 font-medium text-sm text-gray-700 flex items-center ${
-                         isBlocked ? 'bg-red-50 text-red-600' : 
-                         isWorking ? 'bg-white' : 'bg-gray-50'
-                       }`}>
-                         <Clock className="h-3 w-3 mr-1 text-gray-500" />
-                         {timeSlot}
-                       </div>
+                    <div key={timeSlot} className="grid grid-cols-8 gap-1 border-b border-gray-100 hover:bg-gray-50 transition-colors" style={{ gridTemplateColumns: '60px 1fr 1fr 1fr 1fr 1fr 1fr 1fr' }}>
+                      {/* Coluna de horário */}
+                      <div className={`p-2 font-medium text-xs sm:text-sm text-gray-700 flex items-center ${
+                        isBlocked ? 'bg-red-50 text-red-600' : 
+                        isWorking ? 'bg-white' : 'bg-gray-50'
+                      }`}>
+                        <Clock className="h-3 w-3 mr-1 text-gray-500" />
+                        {timeSlot}
+                      </div>
 
                       {/* Colunas dos dias */}
                       {weekDates.map((date) => {
@@ -482,7 +483,7 @@ const WeeklyCalendarView = ({ appointments, selectedDate }: WeeklyCalendarViewPr
                                             {formatTimeBR(appointment.time)}
                                           </span>
                                         </div>
-                                        <Badge variant="secondary" className="bg-white/20 text-white text-xs px-1">
+                                        <Badge variant="secondary" className="bg-white/20 text-white text-xs px-1 hidden sm:block">
                                           {appointment.type === 'particular' ? 'P' : 'Pl'}
                                         </Badge>
                                       </div>
@@ -603,7 +604,7 @@ const WeeklyCalendarView = ({ appointments, selectedDate }: WeeklyCalendarViewPr
               </DialogDescription>
             </DialogHeader>
             <div className="grid gap-4 py-4">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="edit-date">Data</Label>
                   <Input
@@ -636,7 +637,7 @@ const WeeklyCalendarView = ({ appointments, selectedDate }: WeeklyCalendarViewPr
                   )}
                 </div>
               </div>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="edit-type">Tipo</Label>
                   <Select value={editForm.type} onValueChange={(value) => setEditForm({ ...editForm, type: value })}>

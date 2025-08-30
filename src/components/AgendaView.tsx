@@ -295,6 +295,7 @@ const AgendaView = () => {
               Gerencie suas consultas e horários de forma eficiente
             </p>
           </div>
+          {/* Desktop View Mode Selector */}
           <div className="hidden sm:flex items-center space-x-3">
             <div className="flex items-center bg-gradient-to-r from-gray-50 to-gray-100 rounded-2xl p-1.5 shadow-inner">
               <Button 
@@ -352,36 +353,83 @@ const AgendaView = () => {
                 )}
               </Button>
             </div>
+          </div>
 
+          {/* Mobile View Mode Selector */}
+          <div className="sm:hidden flex items-center space-x-2">
+            <div className="flex items-center bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl p-1 shadow-inner">
+              <Button 
+                variant="ghost"
+                size="sm"
+                onClick={() => setViewMode('month')}
+                className={`
+                  relative rounded-lg transition-all duration-300 transform hover:scale-105
+                  ${viewMode === 'month' 
+                    ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg' 
+                    : 'text-gray-600 hover:text-gray-900 hover:bg-white/70'
+                  }
+                `}
+              >
+                <Grid3X3 className="h-4 w-4" />
+              </Button>
+              <Button 
+                variant="ghost"
+                size="sm"
+                onClick={() => setViewMode('week')}
+                className={`
+                  relative rounded-lg transition-all duration-300 transform hover:scale-105
+                  ${viewMode === 'week' 
+                    ? 'bg-gradient-to-r from-green-500 to-emerald-500 text-white shadow-lg' 
+                    : 'text-gray-600 hover:text-gray-900 hover:bg-white/70'
+                  }
+                `}
+              >
+                <CalendarDays className="h-4 w-4" />
+              </Button>
+              <Button 
+                variant="ghost"
+                size="sm"
+                onClick={() => setViewMode('day')}
+                className={`
+                  relative rounded-lg transition-all duration-300 transform hover:scale-105
+                  ${viewMode === 'day' 
+                    ? 'bg-gradient-to-r from-orange-500 to-red-500 text-white shadow-lg' 
+                    : 'text-gray-600 hover:text-gray-900 hover:bg-white/70'
+                  }
+                `}
+              >
+                <Calendar className="h-4 w-4" />
+              </Button>
+            </div>
           </div>
         </div>
       </div>
 
       {/* Quick Stats */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
         <Card className="border-0 shadow-xl rounded-2xl bg-gradient-to-br from-blue-50 to-cyan-50 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
-          <CardContent className="p-6">
-            <div className="flex items-center space-x-4">
-              <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl flex items-center justify-center shadow-lg">
-                <Calendar className="h-6 w-6 text-white" />
+          <CardContent className="p-4 sm:p-6">
+            <div className="flex items-center space-x-3 sm:space-x-4">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl sm:rounded-2xl flex items-center justify-center shadow-lg">
+                <Calendar className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
               </div>
               <div>
-                <p className="text-sm font-medium text-gray-600">Consultas Hoje</p>
-                <p className="text-2xl font-bold text-gray-900">{todayAppointments.length}</p>
+                <p className="text-xs sm:text-sm font-medium text-gray-600">Consultas Hoje</p>
+                <p className="text-xl sm:text-2xl font-bold text-gray-900">{todayAppointments.length}</p>
               </div>
             </div>
           </CardContent>
         </Card>
 
         <Card className="border-0 shadow-xl rounded-2xl bg-gradient-to-br from-green-50 to-emerald-50 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
-          <CardContent className="p-6">
-            <div className="flex items-center space-x-4">
-              <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-500 rounded-2xl flex items-center justify-center shadow-lg">
-                <Users className="h-6 w-6 text-white" />
+          <CardContent className="p-4 sm:p-6">
+            <div className="flex items-center space-x-3 sm:space-x-4">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-green-500 to-emerald-500 rounded-xl sm:rounded-2xl flex items-center justify-center shadow-lg">
+                <Users className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
               </div>
               <div>
-                <p className="text-sm font-medium text-gray-600">Total de Consultas</p>
-                <p className="text-2xl font-bold text-gray-900">{appointments?.length || 0}</p>
+                <p className="text-xs sm:text-sm font-medium text-gray-600">Total de Consultas</p>
+                <p className="text-xl sm:text-2xl font-bold text-gray-900">{appointments?.length || 0}</p>
               </div>
             </div>
           </CardContent>
