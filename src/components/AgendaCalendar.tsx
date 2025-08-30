@@ -2,6 +2,8 @@
 import { Calendar } from '@/components/ui/calendar';
 import { Badge } from '@/components/ui/badge';
 import { Appointment } from '@/hooks/useAppointments';
+import { ptBR } from 'date-fns/locale';
+import { parseAppointmentDate, dateToDBFormat, isSameDate } from '@/utils/dateUtils';
 
 interface AgendaCalendarProps {
   selectedDate: Date;
@@ -10,29 +12,41 @@ interface AgendaCalendarProps {
 }
 
 const AgendaCalendar = ({ selectedDate, onSelectDate, appointments }: AgendaCalendarProps) => {
-  // Get dates that have appointments
-  const appointmentDates = appointments.map(appointment => 
-    new Date(appointment.date).toDateString()
-  );
-
-  // Count appointments per date
+  // Count appointments per date using Brazilian date parsing
   const appointmentCounts = appointments.reduce((acc, appointment) => {
-    const dateString = new Date(appointment.date).toDateString();
-    acc[dateString] = (acc[dateString] || 0) + 1;
+    try {
+      const appointmentDate = parseAppointmentDate(appointment.date);
+      const dateKey = dateToDBFormat(appointmentDate); // Use YYYY-MM-DD as key for consistency
+      acc[dateKey] = (acc[dateKey] || 0) + 1;
+      
+
+    } catch (error) {
+      console.error('Error parsing appointment date in calendar:', appointment.date, error);
+    }
     return acc;
   }, {} as Record<string, number>);
 
+
+
+  // Check if a date has appointments
+  const hasAppointments = (date: Date): boolean => {
+    const dateKey = dateToDBFormat(date);
+    return (appointmentCounts[dateKey] || 0) > 0;
+  };
+
+  // Get appointment count for a specific date
+  const getAppointmentCount = (date: Date): number => {
+    const dateKey = dateToDBFormat(date);
+    return appointmentCounts[dateKey] || 0;
+  };
+
   const modifiers = {
-    hasAppointments: (date: Date) => appointmentDates.includes(date.toDateString()),
+    hasAppointments,
   };
 
   const modifiersClassNames = {
     hasAppointments: 'bg-blue-50 text-blue-900 font-medium border-blue-200',
   };
-
-  console.log('AgendaCalendar - Selected date:', selectedDate);
-  console.log('AgendaCalendar - Appointments:', appointments.length);
-  console.log('AgendaCalendar - Appointment dates:', appointmentDates);
 
   return (
     <div className="space-y-4">
@@ -40,33 +54,41 @@ const AgendaCalendar = ({ selectedDate, onSelectDate, appointments }: AgendaCale
         mode="single"
         selected={selectedDate}
         onSelect={(date) => {
-          console.log('Calendar date selected:', date);
           if (date) {
             onSelectDate(date);
           }
         }}
+        locale={ptBR}
         modifiers={modifiers}
         modifiersClassNames={modifiersClassNames}
         className="rounded-md border"
         components={{
           Day: ({ date, ...props }) => {
-            const dateString = date.toDateString();
-            const count = appointmentCounts[dateString];
+            const count = getAppointmentCount(date);
+            const dateKey = dateToDBFormat(date);
+            
+
             
             return (
-              <div className="relative">
-                <button 
-                  {...props}
-                  className="relative h-9 w-9 p-0 font-normal aria-selected:opacity-100 hover:bg-accent hover:text-accent-foreground disabled:pointer-events-none disabled:opacity-50"
-                >
-                  {date.getDate()}
-                  {count && (
-                    <div className="absolute -top-1 -right-1 h-5 w-5 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs font-bold">
-                      {count}
-                    </div>
-                  )}
-                </button>
-              </div>
+              <button 
+                {...props}
+                className="relative h-9 w-9 p-0 font-normal aria-selected:opacity-100 hover:bg-accent hover:text-accent-foreground disabled:pointer-events-none disabled:opacity-50"
+                onClick={(e) => {
+                  // Chamar o onClick original se existir
+                  if (props.onClick) {
+                    props.onClick(e);
+                  }
+                  // Também chamar onSelectDate diretamente
+                  onSelectDate(date);
+                }}
+              >
+                {date.getDate()}
+                {count > 0 && (
+                  <div className="absolute -top-1 -right-1 min-w-[20px] h-[20px] bg-blue-600 text-white rounded-full pointer-events-none flex items-center justify-center text-xs font-bold shadow-md border-2 border-white">
+                    {count > 9 ? '9+' : count}
+                  </div>
+                )}
+              </button>
             );
           },
         }}
@@ -80,9 +102,9 @@ const AgendaCalendar = ({ selectedDate, onSelectDate, appointments }: AgendaCale
           </div>
           
           {/* Show appointment count for selected date */}
-          {appointmentCounts[selectedDate.toDateString()] && (
+          {getAppointmentCount(selectedDate) > 0 && (
             <Badge variant="secondary" className="bg-blue-600 text-white">
-              {appointmentCounts[selectedDate.toDateString()]} consulta(s)
+              {getAppointmentCount(selectedDate)} consulta(s)
             </Badge>
           )}
         </div>

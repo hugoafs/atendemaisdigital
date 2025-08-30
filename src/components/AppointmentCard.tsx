@@ -4,6 +4,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useUpdateAppointmentStatus } from '@/hooks/useUpdateAppointmentStatus';
+import { formatTimeBR } from '@/utils/dateUtils';
 
 interface AppointmentCardProps {
   id: string;
@@ -41,7 +42,7 @@ const AppointmentCard = ({
   };
 
   const handleStatusChange = (newStatus: 'agendado' | 'em-andamento' | 'concluido' | 'cancelado') => {
-    updateStatus.mutate({ appointmentId: id, status: newStatus });
+    updateStatus.mutate({ appointmentId: id, newStatus });
   };
 
   return (
@@ -64,7 +65,7 @@ const AppointmentCard = ({
           
           <div className="flex items-center space-x-2">
             <Clock size={16} className="text-gray-500" />
-            <span className="text-gray-600">{date} às {time}</span>
+            <span className="text-gray-600">{date} às {formatTimeBR(time)}</span>
           </div>
           
           {value && (

@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -8,25 +8,48 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Textarea } from '@/components/ui/textarea';
 import { usePatients } from '@/hooks/usePatients';
 import { useCreateAppointment } from '@/hooks/useCreateAppointment';
+import { usePlans } from '@/hooks/usePlans';
 import { Plus } from 'lucide-react';
 
 interface CreateAppointmentDialogProps {
   children?: React.ReactNode;
+  defaultPatientId?: string;
 }
 
-const CreateAppointmentDialog = ({ children }: CreateAppointmentDialogProps) => {
+const CreateAppointmentDialog = ({ children, defaultPatientId }: CreateAppointmentDialogProps) => {
   const [open, setOpen] = useState(false);
   const [formData, setFormData] = useState({
-    patient_id: '',
+    patient_id: defaultPatientId || '',
     date: '',
     time: '',
     type: 'particular' as 'particular' | 'plano',
+    plan_id: '',
     value: '',
     notes: '',
   });
 
   const { data: patients } = usePatients();
+  const { data: plans } = usePlans();
   const createAppointment = useCreateAppointment();
+
+  // Update patient_id when defaultPatientId changes
+  useEffect(() => {
+    if (defaultPatientId) {
+      setFormData(prev => ({ ...prev, patient_id: defaultPatientId }));
+    }
+  }, [defaultPatientId]);
+
+  // Update value when plan is selected
+  useEffect(() => {
+    if (formData.type === 'plano' && formData.plan_id && plans) {
+      const selectedPlan = plans.find(plan => plan.id === formData.plan_id);
+      if (selectedPlan) {
+        setFormData(prev => ({ ...prev, value: selectedPlan.value.toString() }));
+      }
+    } else if (formData.type === 'particular') {
+      setFormData(prev => ({ ...prev, plan_id: '', value: '' }));
+    }
+  }, [formData.type, formData.plan_id, plans]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -123,6 +146,25 @@ const CreateAppointmentDialog = ({ children }: CreateAppointmentDialogProps) => 
                 </SelectContent>
               </Select>
             </div>
+            
+            {formData.type === 'plano' && (
+              <div className="space-y-2">
+                <Label htmlFor="plan">Plano de Saúde</Label>
+                <Select value={formData.plan_id} onValueChange={(value) => setFormData({ ...formData, plan_id: value })}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Selecione o plano" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {plans?.map((plan) => (
+                      <SelectItem key={plan.id} value={plan.id}>
+                        {plan.name} - R$ {plan.value.toFixed(2)}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
+            
             <div className="space-y-2">
               <Label htmlFor="value">Valor (R$)</Label>
               <Input
@@ -132,6 +174,7 @@ const CreateAppointmentDialog = ({ children }: CreateAppointmentDialogProps) => 
                 placeholder="0.00"
                 value={formData.value}
                 onChange={(e) => setFormData({ ...formData, value: e.target.value })}
+                disabled={formData.type === 'plano' && formData.plan_id !== ''}
               />
             </div>
           </div>

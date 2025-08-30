@@ -1,6 +1,7 @@
 
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
+import { parseAppointmentDate, formatTimeBR } from '@/utils/dateUtils';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -48,13 +49,21 @@ const AppointmentsList = ({ appointments, isLoading }: AppointmentsListProps) =>
   };
 
   const handleStatusChange = (appointmentId: string, newStatus: 'agendado' | 'em-andamento' | 'concluido' | 'cancelado') => {
-    updateStatus.mutate({ appointmentId, status: newStatus });
+    updateStatus.mutate({ appointmentId, newStatus });
   };
 
-  // Sort appointments by date and time
+  // Sort appointments by date and time using Brazilian date parsing
   const sortedAppointments = appointments.sort((a, b) => {
-    const dateA = new Date(`${a.date} ${a.time}`);
-    const dateB = new Date(`${b.date} ${b.time}`);
+    const dateA = parseAppointmentDate(a.date);
+    const dateB = parseAppointmentDate(b.date);
+    
+    // Se as datas são iguais, comparar horários
+    if (dateA.getTime() === dateB.getTime()) {
+      const timeA = formatTimeBR(a.time);
+      const timeB = formatTimeBR(b.time);
+      return timeA.localeCompare(timeB);
+    }
+    
     return dateA.getTime() - dateB.getTime();
   });
 
@@ -99,13 +108,13 @@ const AppointmentsList = ({ appointments, isLoading }: AppointmentsListProps) =>
                   <div className="flex items-center space-x-2">
                     <Calendar size={16} className="text-gray-400" />
                     <span>
-                      {format(new Date(appointment.date), "dd 'de' MMMM 'de' yyyy", { locale: ptBR })}
+                      {format(parseAppointmentDate(appointment.date), "dd 'de' MMMM 'de' yyyy", { locale: ptBR })}
                     </span>
                   </div>
                   
                   <div className="flex items-center space-x-2">
                     <Clock size={16} className="text-gray-400" />
-                    <span>{appointment.time}</span>
+                    <span>{formatTimeBR(appointment.time)}</span>
                   </div>
 
                   <div className="flex items-center space-x-2">

@@ -15,6 +15,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
+import { useNotificationStats } from '@/hooks/useNotifications';
 
 interface ModernSidebarProps {
   isOpen: boolean;
@@ -25,6 +26,7 @@ const ModernSidebar = ({ isOpen, onClose }: ModernSidebarProps) => {
   const { user, signOut } = useAuth();
   const { toast } = useToast();
   const location = useLocation();
+  const { data: notificationStats } = useNotificationStats();
 
   const handleSignOut = async () => {
     try {
@@ -98,7 +100,15 @@ const ModernSidebar = ({ isOpen, onClose }: ModernSidebarProps) => {
                   ? 'text-white' 
                   : 'text-gray-400 group-hover:text-gray-600'
               }`} />
-              {item.name}
+              <span className="flex-1">{item.name}</span>
+              
+              {/* Notification badge */}
+              {item.name === 'Notificações' && notificationStats?.unread && notificationStats.unread > 0 && (
+                <div className="ml-2 min-w-[20px] h-5 bg-red-500 text-white rounded-full flex items-center justify-center text-xs font-bold">
+                  {notificationStats.unread > 9 ? '9+' : notificationStats.unread}
+                </div>
+              )}
+              
               {isActive(item.href) && (
                 <ChevronRight className="ml-auto h-4 w-4" />
               )}

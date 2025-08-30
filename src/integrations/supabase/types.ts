@@ -108,7 +108,11 @@ export type Database = {
           professional_type: string | null
           specialty: string | null
           city: string | null
-          working_hours: string | null
+          start_work: string | null
+          end_work: string | null
+          days_week_work: string | null
+          blog_hours_start: string | null
+          blog_hours_end: string | null
           is_active: boolean | null
           created_at: string | null
           updated_at: string | null
@@ -125,7 +129,11 @@ export type Database = {
           professional_type?: string | null
           specialty?: string | null
           city?: string | null
-          working_hours?: string | null
+          start_work?: string | null
+          end_work?: string | null
+          days_week_work?: string | null
+          blog_hours_start?: string | null
+          blog_hours_end?: string | null
           is_active?: boolean | null
           created_at?: string | null
           updated_at?: string | null
@@ -142,13 +150,128 @@ export type Database = {
           professional_type?: string | null
           specialty?: string | null
           city?: string | null
-          working_hours?: string | null
+          start_work?: string | null
+          end_work?: string | null
+          days_week_work?: string | null
+          blog_hours_start?: string | null
+          blog_hours_end?: string | null
           is_active?: boolean | null
           created_at?: string | null
           updated_at?: string | null
           state?: string | null
           clinic_name?: string | null
           plan?: string | null
+        }
+        Relationships: []
+      }
+      user_settings: {
+        Row: {
+          id: string
+          user_id: string
+          theme: string
+          language: string
+          timezone: string
+          notifications_enabled: boolean
+          sound_enabled: boolean
+          email_notifications: boolean
+          appointment_reminders: boolean
+          reminder_time: number
+          working_hours_start: string
+          working_hours_end: string
+          working_days: string[]
+          default_appointment_duration: number
+          currency: string
+          date_format: string
+          time_format: string
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          theme?: string
+          language?: string
+          timezone?: string
+          notifications_enabled?: boolean
+          sound_enabled?: boolean
+          email_notifications?: boolean
+          appointment_reminders?: boolean
+          reminder_time?: number
+          working_hours_start?: string
+          working_hours_end?: string
+          working_days?: string[]
+          default_appointment_duration?: number
+          currency?: string
+          date_format?: string
+          time_format?: string
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          theme?: string
+          language?: string
+          timezone?: string
+          notifications_enabled?: boolean
+          sound_enabled?: boolean
+          email_notifications?: boolean
+          appointment_reminders?: boolean
+          reminder_time?: number
+          working_hours_start?: string
+          working_hours_end?: string
+          working_days?: string[]
+          default_appointment_duration?: number
+          currency?: string
+          date_format?: string
+          time_format?: string
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      session_durations: {
+        Row: {
+          id: string
+          user_id: string
+          duration_minutes: number
+          created_at: string
+          active: boolean
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          duration_minutes: number
+          created_at?: string
+          active?: boolean
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          duration_minutes?: number
+          created_at?: string
+          active?: boolean
+        }
+        Relationships: []
+      }
+      plans: {
+        Row: {
+          id: string
+          user_id: string
+          name: string
+          value: number
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          name: string
+          value: number
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          name?: string
+          value?: number
         }
         Relationships: []
       }

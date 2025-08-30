@@ -9,6 +9,10 @@ import ProtectedRoute from "@/components/ProtectedRoute";
 import Index from "./pages/Index";
 import Home from "./pages/Home";
 import Agenda from "./pages/Agenda";
+import Patients from "./pages/Patients";
+import Reports from "./pages/Reports";
+import Notifications from "./pages/Notifications";
+import Settings from "./pages/Settings";
 import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
 
@@ -37,6 +41,38 @@ const App = () => (
               element={
                 <ProtectedRoute>
                   <Agenda />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/patients" 
+              element={
+                <ProtectedRoute>
+                  <Patients />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/reports" 
+              element={
+                <ProtectedRoute>
+                  <Reports />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/notifications" 
+              element={
+                <ProtectedRoute>
+                  <Notifications />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/settings" 
+              element={
+                <ProtectedRoute>
+                  <Settings />
                 </ProtectedRoute>
               } 
             />

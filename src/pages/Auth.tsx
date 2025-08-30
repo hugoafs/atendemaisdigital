@@ -229,21 +229,35 @@ const Auth = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-emerald-50 flex items-center justify-center px-4 py-8">
-      <Card className="w-full max-w-2xl shadow-xl border-0">
-        <CardHeader className="text-center pb-6">
-          <CardTitle className="text-3xl font-bold bg-gradient-to-r from-emerald-600 to-blue-600 bg-clip-text text-transparent">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50/30 flex items-center justify-center px-4 py-8 relative overflow-hidden">
+      {/* Animated Background */}
+      <div className="absolute inset-0">
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 via-white to-purple-50/30"></div>
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-gradient-to-br from-blue-400/10 to-purple-400/10 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-gradient-to-br from-purple-400/10 to-pink-400/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
+      </div>
+
+      <Card className="w-full max-w-2xl shadow-2xl border-0 bg-white/95 backdrop-blur-xl relative z-10 rounded-3xl">
+        <CardHeader className="text-center pb-6 pt-8">
+          <div className="flex items-center justify-center mb-6">
+            <div className="w-16 h-16 bg-gradient-to-br from-blue-600 via-purple-600 to-pink-500 rounded-2xl flex items-center justify-center shadow-xl">
+              <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center">
+                <div className="w-4 h-4 bg-gradient-to-br from-blue-600 to-purple-600 rounded"></div>
+              </div>
+            </div>
+          </div>
+          <CardTitle className="text-4xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent mb-2">
             Atende+ Digital
           </CardTitle>
-          <CardDescription className="text-lg text-slate-600">
+          <CardDescription className="text-lg text-gray-600">
             Gerencie seu consultório de forma eficiente e profissional
           </CardDescription>
         </CardHeader>
         <CardContent>
           <Tabs defaultValue="signin" className="w-full">
-            <TabsList className="grid w-full grid-cols-2 mb-6">
-              <TabsTrigger value="signin" className="text-base">Entrar</TabsTrigger>
-              <TabsTrigger value="signup" className="text-base">Cadastrar</TabsTrigger>
+            <TabsList className="grid w-full grid-cols-2 mb-6 bg-gray-50 p-1 rounded-2xl">
+              <TabsTrigger value="signin" className="text-base rounded-xl data-[state=active]:bg-white data-[state=active]:shadow-lg transition-all duration-200">Entrar</TabsTrigger>
+              <TabsTrigger value="signup" className="text-base rounded-xl data-[state=active]:bg-white data-[state=active]:shadow-lg transition-all duration-200">Cadastrar</TabsTrigger>
             </TabsList>
             
             <TabsContent value="signin" className="space-y-0">
@@ -278,8 +292,8 @@ const Auth = () => {
                     className="h-11"
                   />
                 </div>
-                <Button type="submit" className="w-full h-11 bg-gradient-to-r from-emerald-600 to-blue-600 hover:from-emerald-700 hover:to-blue-700" disabled={loading}>
-                  {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                <Button type="submit" className="w-full h-12 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-500 hover:from-blue-700 hover:via-purple-700 hover:to-pink-600 text-white shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 rounded-xl font-semibold" disabled={loading}>
+                  {loading && <Loader2 className="mr-2 h-5 w-5 animate-spin" />}
                   Entrar
                 </Button>
               </form>
@@ -499,8 +513,8 @@ const Auth = () => {
                   </div>
                 </div>
 
-                <Button type="submit" className="w-full h-11 bg-gradient-to-r from-emerald-600 to-blue-600 hover:from-emerald-700 hover:to-blue-700" disabled={loading}>
-                  {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                <Button type="submit" className="w-full h-12 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-500 hover:from-blue-700 hover:via-purple-700 hover:to-pink-600 text-white shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 rounded-xl font-semibold" disabled={loading}>
+                  {loading && <Loader2 className="mr-2 h-5 w-5 animate-spin" />}
                   Criar Conta
                 </Button>
               </form>
